@@ -6,7 +6,7 @@ import LinkSimple from '@/components/LinkSimple.vue';
     <li>
       <LinkSimple
         path="/register"
-        class="text-rose-800"
+        class="text-rose-800 dark:text-rose-100 transition-colors"
       >
         Sign up
       </LinkSimple>
@@ -14,7 +14,7 @@ import LinkSimple from '@/components/LinkSimple.vue';
     <li>
       <LinkSimple
         path="/login"
-        class="text-slate-900"
+        class="text-slate-900 dark:text-rose-400 transition-colors"
       >
         Login
       </LinkSimple>

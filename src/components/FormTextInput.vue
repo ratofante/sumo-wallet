@@ -51,7 +51,7 @@ onMounted(() => {
       />
       <label
         :for="name"
-        class="font-semibold text-sm text-slate-900 peer-focus:text-rose-900"
+        class="font-semibold text-sm text-slate-900 peer-focus:text-rose-900 dark:text-slate-200 dark:peer-focus:text-rose-600 transition-colors"
       >
         {{ label }}
       </label>

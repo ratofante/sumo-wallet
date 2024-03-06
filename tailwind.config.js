@@ -2,6 +2,7 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  darkMode: 'selector',
   fontFamily: {
     sans: ['Inter', 'system-ui']
   },
@@ -23,7 +24,7 @@ export default {
         sans: ['Poppins', ...defaultTheme.fontFamily.sans]
       },
       fontSize: {
-        'big-title': ['82px', '0.85']
+        'big-title': ['82px', '0.8']
       }
     }
   },

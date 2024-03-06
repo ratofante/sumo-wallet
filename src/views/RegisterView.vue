@@ -19,6 +19,7 @@ const form = reactive({
 const processingForm = ref(false);
 
 const register = async () => {
+  processingForm.value = true;
   if (form.password === form.confirmPassword) {
     try {
       const { error } = await supabase.auth.signUp({
@@ -26,44 +27,46 @@ const register = async () => {
         password: form.password
       });
       if (error) throw error;
-      router.push({ name: 'Login' });
+      router.push({ name: 'login' });
     } catch (error) {
       form.errorMsg = 'Error: ' + error.message;
+    } finally {
+      processingForm.value = false;
     }
-    return;
   }
   form.errorMsg = "Error: passwords don't match";
 };
 </script>
 <template>
   <div class="mb-12">
-    <h2 class="font-serif text-3xl text-left tracking-tight font-bold text-slate-900 mb-4">
+    <h2 class="font-serif text-3xl text-left font-bold text-slate-900 mb-4 dark:text-slate-200">
       Register
     </h2>
 
     <ul class="text-sm">
-      <li class="flex items-start mb-1">
-        <span class="block text-sm mr-2 font-medium text-rose-900">(1)</span>
-        <span class="-block">Create an account with your email and password.</span>
-      </li>
-      <li class="flex items-start mb-1">
-        <span class="block text-sm mr-2 font-medium text-rose-900">(2)</span>
-        <span class="-block">We'll send an email to your address.</span>
-      </li>
-      <li class="flex items-start mb-1">
-        <span class="block text-sm mr-2 font-medium text-rose-900">(3)</span>
-        <span class="-block">Confirm your email address clicking on the link.</span>
-      </li>
-      <li class="flex items-start mb-1">
-        <span class="block text-sm mr-2 font-medium text-rose-900">(4)</span>
-        <span class="-block">That's all, you can start creating your wallet.</span>
+      <li
+        v-for="(item, i) in [
+          'Create an account with your email and password.',
+          'We\'ll send an email to your address.',
+          'Confirm your email address clicking on the link.',
+          'That\'s all, you can start creating your wallet.'
+        ]"
+        :key="i"
+        class="flex items-start mb-1"
+      >
+        <span
+          class="block text-sm mr-2 font-medium text-rose-900 dark:text-rose-400 dark:opacity-80 dark:font-normal"
+        >
+          ({{ i + 1 }})
+        </span>
+        <span class="block dark:text-slate-200">{{ item }}</span>
       </li>
     </ul>
   </div>
 
   <form
     @submit.prevent="register"
-    class="bg-rose-100 p-4 rounded w-full"
+    class="bg-rose-100 p-4 rounded w-full dark:bg-slate-800 transition-colors"
   >
     <FormTextInput
       label="Email"
@@ -96,18 +99,18 @@ const register = async () => {
         default="Chile"
       /> -->
     <FormErrorMsg :message="form.errorMsg" />
-    <div class="flex flex-col items-center gap-1">
+    <div class="mt-8 flex flex-col items-center gap-1">
       <ButtonPrimary
         type="submit"
         :disabled="processingForm"
       >
         Submit
       </ButtonPrimary>
-      <div class="text-slate-900 font-medium text-xs text-center">
+      <div class="mt-4 text-slate-900 font-medium text-xs text-center dark:text-slate-400">
         <RouterLink to="/login">
           Already have an account?
           <br />
-          <span class="text-rose-400 font-semibold">Login</span>
+          <span class="text-rose-400 font-semibold dark:text-rose-700">Login</span>
         </RouterLink>
       </div>
     </div>

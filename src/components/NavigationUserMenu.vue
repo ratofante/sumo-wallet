@@ -1,5 +1,4 @@
 <script setup>
-import LinkSimple from '@/components/LinkSimple.vue';
 import { supabase } from '@/supabase';
 import { useRouter } from 'vue-router';
 import {
@@ -8,10 +7,11 @@ import {
   UserCircleIcon,
   PowerIcon
 } from '@heroicons/vue/24/outline';
+import LinkSimple from '@/components/LinkSimple.vue';
 
 const links = [
-  { path: '/', icon: DashboardIcon, label: 'Dashboard' },
-  { path: '/', icon: UserCircleIcon, label: 'Profile' },
+  { path: '/dashboard', icon: DashboardIcon, label: 'Dashboard' },
+  { path: '/profile', icon: UserCircleIcon, label: 'Profile' },
   { path: '/', icon: WalletIcon, label: 'Wallets' }
 ];
 
@@ -53,17 +53,22 @@ const logout = async () => {
           <li
             v-for="(link, i) in links"
             :key="i"
-            class="flex items-center gap-2 py-2"
           >
-            <component
-              :is="link.icon"
-              class="w-4 h-4 opacity-80"
-            />
-            {{ link.label }}
+            <LinkSimple
+              :path="link.path"
+              @click="$emit('close-user-menu')"
+              class="flex items-center gap-2 py-2"
+            >
+              <component
+                :is="link.icon"
+                class="w-4 h-4 opacity-80"
+              />
+              {{ link.label }}
+            </LinkSimple>
           </li>
         </ul>
       </div>
-      <div class="border-t-2 mt-4 py-4 border-rose-600 border-opacity-65">
+      <div class="border-t-2 py-4 border-rose-600 border-opacity-65">
         <button
           @click="logout"
           class="flex items-center gap-2 py-2"

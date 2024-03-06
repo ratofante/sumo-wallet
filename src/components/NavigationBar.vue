@@ -4,10 +4,12 @@ import { computed, ref } from 'vue';
 import store from '@/stores/userStore';
 import ButtonMenu from './ButtonMenu.vue';
 import NavigationSectionsMenu from './NavigationSectionsMenu.vue';
+import ButtonTheme from '@/components/ButtonTheme.vue';
 import NavbarIcon from '@/components/NavbarIcon.vue';
 import NavbarUser from '@/components/NavbarUser.vue';
 import NavbarSignUp from '@/components/NavbarSignUp.vue';
 import NavigationUserMenu from './NavigationUserMenu.vue';
+import NavbarLogo from '@/components/NavbarLogo.vue';
 
 const user = computed(() => store.state.user);
 
@@ -24,19 +26,24 @@ function toggleUserMenu() {
 </script>
 <template>
   <nav
-    class="relative w-full h-12 container container:md mx-auto py-3 text-gray-100 font-medium rounded-b-sm"
+    class="relative w-full h-12 flex container container:md mx-auto text-gray-100 font-medium border-b-2 rounded-b-sm dark:bg-slate-900 dark:border-opacity-20 dark:border-slate-200 transition-colors"
   >
     <NavigationSectionsMenu v-show="isSectionsMenuOpen" />
     <NavigationUserMenu
       v-show="isUserMenuOpen"
       @close-user-menu="toggleUserMenu"
     />
-    <div class="relative flex items-center justify-between">
+    <div class="relative w-full flex items-center justify-between">
       <ButtonMenu
         @button-clicked="toggleSectionsMenu($event)"
         class="relative z-40"
       />
-      <NavbarIcon />
+      <div class="mr-auto ml-4">
+        <ButtonTheme />
+      </div>
+
+      <NavbarLogo />
+      <!-- <NavbarIcon /> -->
       <ul class="hidden md:flex gap-4">
         <li><RouterLink to="/">Home</RouterLink></li>
         <li>Logout</li>

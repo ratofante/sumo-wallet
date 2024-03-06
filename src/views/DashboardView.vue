@@ -14,6 +14,6 @@ import { computed, onMounted, ref } from 'vue';
 </script>
 <template>
   <div>
-    <h2>Hi there, User!</h2>
+    <h2 class="dark:text-slate-200">Hi there, User!</h2>
   </div>
 </template>
