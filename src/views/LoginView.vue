@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue';
 import { supabase } from '@/supabase';
-import FormTextInput from '@/components/FormTextInput.vue';
+import FormInputText from '@/components/FormInputText.vue';
 import ButtonPrimary from '@/components/ButtonPrimary.vue';
 import FormErrorMsg from '@/components/FormErrorMsg.vue';
 import { useRouter } from 'vue-router';
@@ -57,14 +57,14 @@ const login = async () => {
     @submit.prevent="login"
     class="w-full bg-rose-100 p-4 rounded dark:bg-slate-800 transition-colors"
   >
-    <FormTextInput
+    <FormInputText
       label="Email"
       name="email"
       v-model="form.email"
       type="email"
       :autofocus="true"
     />
-    <FormTextInput
+    <FormInputText
       label="Password"
       name="password"
       v-model="form.password"
@@ -73,7 +73,7 @@ const login = async () => {
       <div class="text-slate-900 text-xs dark:text-slate-400">
         <RouterLink to="/reset-password">Forgot your password?</RouterLink>
       </div>
-    </FormTextInput>
+    </FormInputText>
 
     <FormErrorMsg :message="form.errorMsg" />
 

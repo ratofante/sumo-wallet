@@ -29,13 +29,10 @@ const getProfile = async () => {
 };
 
 const checkForProfile = async () => {
-  console.log('checkForProfile trigger');
   if (store.state.user) {
-    console.log("there's a user, start getProfile()");
     try {
       await getProfile();
       if (store.state.profile) {
-        console.log('before firing new-profile', store.state.profile);
         window.dispatchEvent(new CustomEvent('new-profile'));
       }
     } catch (error) {

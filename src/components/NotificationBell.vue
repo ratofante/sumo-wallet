@@ -23,7 +23,6 @@ const notifications = ref([
 
 const createNotification = (opts) => {
   notifications.value.push(opts);
-  console.log(notifications.value);
 };
 
 const checkProfile = () => {
@@ -39,13 +38,6 @@ const checkProfile = () => {
  * @returns {boolean}
  */
 const profileNeedsUpdate = () => {
-  if (store.state.profile) {
-    console.log(true);
-  } else {
-    console.log(false);
-    console.log(store.state.profile);
-  }
-
   return (
     store.state.profile &&
     (!store.state.profile.username ||

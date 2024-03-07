@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue';
-import FormTextInput from '@/components/FormTextInput.vue';
+import FormInputText from '@/components/FormInputText.vue';
 import ButtonPrimary from '@/components/ButtonPrimary.vue';
 import FormErrorMsg from '@/components/FormErrorMsg.vue';
 import { supabase } from '@/supabase';
@@ -45,7 +45,7 @@ const resetPassword = async () => {
       @submit.prevent="resetPassword"
       class="w-full bg-rose-100 p-4 rounded dark:bg-slate-800 transition-colors"
     >
-      <FormTextInput
+      <FormInputText
         label="Email"
         name="email"
         v-model="form.email"

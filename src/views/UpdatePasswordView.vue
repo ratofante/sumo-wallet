@@ -1,5 +1,5 @@
 <script setup>
-import FormTextInput from '@/components/FormTextInput.vue';
+import FormInputText from '@/components/FormInputText.vue';
 import FormErrorMsg from '@/components/FormErrorMsg.vue';
 import ButtonPrimary from '@/components/ButtonPrimary.vue';
 import { supabase } from '@/supabase';
@@ -41,13 +41,13 @@ const updatePassword = async () => {
     @submit.prevent="updatePassword"
     class="w-full bg-rose-100 p-4 rounded dark:bg-slate-800 transition-colors"
   >
-    <FormTextInput
+    <FormInputText
       label="Password"
       name="password"
       v-model="form.newPassword"
       type="password"
     />
-    <FormTextInput
+    <FormInputText
       label="Confirm Password"
       name="confirmpassword"
       v-model="form.confirmPassword"

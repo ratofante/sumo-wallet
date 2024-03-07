@@ -11,10 +11,6 @@ defineProps({
     type: String,
     default: 'Input Label'
   },
-  type: {
-    type: String,
-    default: 'text'
-  },
   autofocus: {
     type: Boolean,
     default: false
@@ -40,7 +36,7 @@ onMounted(() => {
     <div class="flex flex-col-reverse gap-2">
       <input
         @input="$emit('updateValue', $event.target.value)"
-        :type="type"
+        type="text"
         :name="name"
         :id="name"
         v-model="model"

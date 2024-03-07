@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue';
 import { supabase } from '../supabase.js';
 import { useRouter } from 'vue-router';
-import FormTextInput from '@/components/FormTextInput.vue';
+import FormInputText from '@/components/FormInputText.vue';
 import ButtonPrimary from '@/components/ButtonPrimary.vue';
 import FormErrorMsg from '@/components/FormErrorMsg.vue';
 //import FormSelectInput from '@/components/FormSelectInput.vue';
@@ -68,20 +68,20 @@ const register = async () => {
     @submit.prevent="register"
     class="bg-rose-100 p-4 rounded w-full dark:bg-slate-800 transition-colors"
   >
-    <FormTextInput
+    <FormInputText
       label="Email"
       name="email"
       v-model="form.email"
       type="email"
       :autofocus="true"
     />
-    <FormTextInput
+    <FormInputText
       label="Password"
       name="password"
       v-model="form.password"
       type="password"
     />
-    <FormTextInput
+    <FormInputText
       label="Confirm Password"
       name="confirmpassword"
       v-model="form.confirmPassword"
