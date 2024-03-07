@@ -32,11 +32,18 @@ const resetPassword = async () => {
 </script>
 <template>
   <div>
-    <h2 class="text-3xl text-left mb-12 tracking-tight font-bold text-rose-950">Forgot Password</h2>
+    <div class="mb-12">
+      <h2 class="font-serif text-3xl text-left font-bold text-slate-900 mb-4 dark:text-slate-200">
+        Forgot Password
+      </h2>
+      <p class="text-sm dark:text-slate-200">
+        We'll send a reset-password link to your email address.
+      </p>
+    </div>
 
     <form
       @submit.prevent="resetPassword"
-      class="bg-zinc-800 p-4 rounded"
+      class="w-full bg-rose-100 p-4 rounded dark:bg-slate-800 transition-colors"
     >
       <FormTextInput
         label="Email"

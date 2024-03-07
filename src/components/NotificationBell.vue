@@ -3,16 +3,33 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { BellIcon } from '@heroicons/vue/24/outline';
 import store from '@/stores/userStore.js';
 import ButtonDropdown from '@/components/ButtonDropdown.vue';
+import LinkSimple from './LinkSimple.vue';
 
-const notifications = ref([]);
+const dropdown = ref();
+const notifications = ref([
+  {
+    message: "Welcome to Sumo's Wallet",
+    unread: false
+  },
+  {
+    message: 'Guide for new users',
+    unread: true
+  },
+  {
+    message: 'This is a notification with a very large text',
+    unread: true
+  }
+]);
 
-const createAlarm = (opts) => {
+const createNotification = (opts) => {
   notifications.value.push(opts);
   console.log(notifications.value);
 };
 const checkProfile = () => {
   if (profileNeedsUpdate()) {
-    createAlarm({ message: 'Complete your profile' });
+    createNotification({
+      message: 'Complete your profile'
+    });
   }
 };
 /***
@@ -34,6 +51,9 @@ const profileNeedsUpdate = () => {
       !store.state.profile.avatar_url)
   );
 };
+const closeDropdown = () => {
+  dropdown.value.toggleDropdown();
+};
 onMounted(() => {
   window.addEventListener('new-profile', checkProfile);
 });
@@ -43,7 +63,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <ButtonDropdown>
+  <ButtonDropdown
+    side="right"
+    ref="dropdown"
+  >
     <template v-slot:trigger>
       <button class="relative w-6 h-6 text-slate-800 dark:text-slate-200 transition-colors">
         <BellIcon />
@@ -61,8 +84,15 @@ onUnmounted(() => {
         <li
           v-for="(notification, i) in notifications"
           :key="i"
+          class="my-1 p-2 bg-slate-900 rounded-sm hover:bg-opacity-80 transition-colors"
+          :class="{ 'bg-slate-700': notification.unread }"
         >
-          {{ notification.message }}
+          <LinkSimple
+            path="/notifications"
+            @click="closeDropdown"
+          >
+            <span class="font-normal text-xs line-clamp-1">{{ notification.message }}</span>
+          </LinkSimple>
         </li>
       </ul>
     </template>

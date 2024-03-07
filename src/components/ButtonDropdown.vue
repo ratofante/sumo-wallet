@@ -1,12 +1,22 @@
 <script setup>
 import { ref } from 'vue';
+defineProps({
+  side: {
+    type: String,
+    default: 'left'
+  }
+});
 const open = ref(false);
+function toggleDropdown() {
+  open.value = !open.value;
+}
+defineExpose({ toggleDropdown });
 </script>
 
 <template>
   <div class="relative">
     <div
-      @click="open = !open"
+      @click="toggleDropdown"
       class="grid place-items-center"
     >
       <slot name="trigger" />
@@ -14,7 +24,7 @@ const open = ref(false);
 
     <div
       v-show="open"
-      @click="open = !open"
+      @click="toggleDropdown"
       class="fixed inset-0 z-40 bg-black opacity-20"
     ></div>
     <Transition
@@ -27,11 +37,10 @@ const open = ref(false);
     >
       <div
         v-show="open"
-        class="absolute bottom-0 translate-y-[100%] z-50"
+        class="absolute bottom-0 right-0 translate-y-[100%] z-50 rounded-md overflow-hidden bg-slate-900 border-2 border-white"
+        :class="side === 'left' ? 'left-0' : 'right-0'"
       >
-        <div
-          class="flex flex-col bg-gray-dark py-8 px-4 w-fit min-w-48 md:min-w-56 rounded-md border-2 border-opacity-20 border-green"
-        >
+        <div class="flex flex-col bg-gray-dark p-4 w-fit min-w-52 md:min-w-56">
           <slot name="content" />
         </div>
       </div>

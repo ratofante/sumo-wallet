@@ -14,7 +14,7 @@ import LinkPrimary from '@/components/LinkPrimary.vue';
           Sumo's Wallet
         </h1>
         <p
-          class="font-serif text-md text-center text-slate-800 pt-2 leading-none dark:text-slate-200 transition-colors"
+          class="font-sans font-medium text-sm text-center text-slate-700 pt-2 leading-none dark:text-slate-200 transition-colors"
         >
           Your everyday
           <br />

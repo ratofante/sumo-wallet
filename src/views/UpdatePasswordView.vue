@@ -31,34 +31,36 @@ const updatePassword = async () => {
 };
 </script>
 <template>
-  <div>
-    <h2 class="text-3xl text-left mb-12 tracking-tight font-bold text-rose-950">Update Password</h2>
-
-    <form
-      @submit.prevent="updatePassword"
-      class="bg-zinc-800 p-4 rounded"
-    >
-      <FormTextInput
-        label="Password"
-        name="password"
-        v-model="form.newPassword"
-        type="password"
-      />
-      <FormTextInput
-        label="Confirm Password"
-        name="confirmpassword"
-        v-model="form.confirmPassword"
-        type="password"
-      />
-      <FormErrorMsg :message="form.errorMsg" />
-      <div class="flex items-center gap-4">
-        <ButtonPrimary
-          type="submit"
-          :disabled="processingForm"
-        >
-          Submit
-        </ButtonPrimary>
-      </div>
-    </form>
+  <div class="mb-12">
+    <h2 class="font-serif text-3xl text-left font-bold text-slate-900 mb-4 dark:text-slate-200">
+      Update Password
+    </h2>
   </div>
+
+  <form
+    @submit.prevent="updatePassword"
+    class="w-full bg-rose-100 p-4 rounded dark:bg-slate-800 transition-colors"
+  >
+    <FormTextInput
+      label="Password"
+      name="password"
+      v-model="form.newPassword"
+      type="password"
+    />
+    <FormTextInput
+      label="Confirm Password"
+      name="confirmpassword"
+      v-model="form.confirmPassword"
+      type="password"
+    />
+    <FormErrorMsg :message="form.errorMsg" />
+    <div class="flex items-center justify-center gap-4">
+      <ButtonPrimary
+        type="submit"
+        :disabled="processingForm"
+      >
+        Set Password
+      </ButtonPrimary>
+    </div>
+  </form>
 </template>

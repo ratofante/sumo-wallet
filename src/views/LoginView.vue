@@ -18,7 +18,6 @@ const processingForm = ref(false);
 
 const login = async () => {
   processingForm.value = true;
-
   try {
     const { error } = await supabase.auth.signInWithPassword({
       email: form.email,
