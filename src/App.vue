@@ -53,9 +53,8 @@ supabase.auth.onAuthStateChange((event, _session) => {
     checkForProfile();
   }
   if (event === 'SIGNED_OUT') console.log('LOGGED OUT');
-  if (event === 'PASSWORD_RECOVERY') {
-    router.push({ name: 'update-password' });
-  }
+  if (event === 'PASSWORD_RECOVERY') router.push({ name: 'update-password' });
+
   appReady.value = true;
   window.dispatchEvent(new CustomEvent('app-ready'));
 });

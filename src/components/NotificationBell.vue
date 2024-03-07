@@ -25,6 +25,7 @@ const createNotification = (opts) => {
   notifications.value.push(opts);
   console.log(notifications.value);
 };
+
 const checkProfile = () => {
   if (profileNeedsUpdate()) {
     createNotification({
@@ -32,6 +33,7 @@ const checkProfile = () => {
     });
   }
 };
+
 /***
  * Checks for profile and missings fields
  * @returns {boolean}
@@ -51,12 +53,15 @@ const profileNeedsUpdate = () => {
       !store.state.profile.avatar_url)
   );
 };
+
 const closeDropdown = () => {
   dropdown.value.toggleDropdown();
 };
+
 onMounted(() => {
   window.addEventListener('new-profile', checkProfile);
 });
+
 onUnmounted(() => {
   window.removeEventListener('new-profile', checkProfile);
 });
