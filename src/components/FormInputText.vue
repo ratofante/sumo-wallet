@@ -14,6 +14,10 @@ defineProps({
   autofocus: {
     type: Boolean,
     default: false
+  },
+  placeholder: {
+    type: String,
+    default: ''
   }
 });
 
@@ -42,8 +46,9 @@ onMounted(() => {
         v-model="model"
         :autocomplete="name"
         :autofocus="autofocus"
+        :placeholder="placeholder"
         ref="input"
-        class="peer box-border h-10 p-2 rounded-sm border-transparent focus:bg-white focus:border-rose-400 focus:outline-none focus:border-b-2 transition-colors"
+        class="peer box-border h-10 p-2 rounded-sm border-transparent focus:bg-slate-50 focus:border-rose-400 focus:outline-none focus:border-b-2 transition-colors"
       />
       <label
         :for="name"

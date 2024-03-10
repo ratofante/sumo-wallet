@@ -60,7 +60,7 @@ supabase.auth.onAuthStateChange((event, _session) => {
 <template>
   <div
     v-if="appReady"
-    class="relative max-w-md md:max-w-3xl mx-auto min-h-screen bg-white dark:bg-slate-950 transition-colors"
+    class="relative max-w-md md:max-w-3xl mx-auto min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors"
   >
     <header class="absolute top-0 left-0 w-full">
       <NavigationBar />

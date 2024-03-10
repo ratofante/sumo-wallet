@@ -74,7 +74,7 @@ onMounted(() => {
             open = false;
             $emit('input', option);
           "
-          class="capitalize p-2 cursor-pointer transition-colors hover:bg-rose-800 hover:text-white"
+          class="capitalize p-2 cursor-pointer transition-colors hover:bg-rose-800 hover:text-slate-50"
         >
           {{ option }}
         </div>

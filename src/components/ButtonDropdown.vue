@@ -37,7 +37,7 @@ defineExpose({ toggleDropdown });
     >
       <div
         v-show="open"
-        class="absolute bottom-0 right-0 translate-y-[100%] z-50 rounded-md overflow-hidden bg-slate-900 border-2 border-white"
+        class="absolute bottom-0 right-0 translate-y-[100%] z-50 rounded-md overflow-hidden bg-slate-900 border-2 border-slate-50"
         :class="side === 'left' ? 'left-0' : 'right-0'"
       >
         <div class="flex flex-col bg-gray-dark p-4 w-fit min-w-52 md:min-w-56">

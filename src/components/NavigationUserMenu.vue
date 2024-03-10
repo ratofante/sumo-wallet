@@ -37,7 +37,7 @@ const logout = async () => {
     >
       <div class="flex gap-8 justify-between">
         <div class="flex flex-col">
-          <span class="font-medium text-lg text-white">Username</span>
+          <span class="font-medium text-lg text-slate-50">Username</span>
           <span class="text-rose-100 text-opacity-80 font text-xs">user@mail.com</span>
         </div>
         <div class="w-16 h-16 rounded-full border-2 border-rose-800 overflow-hidden">

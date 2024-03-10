@@ -43,7 +43,7 @@ onMounted(() => {
         :autocomplete="name"
         :autofocus="autofocus"
         ref="input"
-        class="peer box-border h-10 p-2 rounded-sm border-transparent focus:bg-white focus:border-rose-400 focus:outline-none focus:border-b-2 transition-colors"
+        class="peer box-border h-10 p-2 rounded-sm border-transparent focus:bg-slate-50 focus:border-rose-400 focus:outline-none focus:border-b-2 transition-colors"
       />
       <label
         :for="name"

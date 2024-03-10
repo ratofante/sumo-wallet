@@ -70,7 +70,7 @@ onUnmounted(() => {
 
         <div
           v-if="notifications.length > 0"
-          class="absolute bottom-0 left-0 text-[8px] bg-red-800 w-3 h-3 text-white rounded-full"
+          class="absolute bottom-0 left-0 text-[8px] bg-red-800 w-3 h-3 text-slate-50 rounded-full"
         >
           {{ notifications.length }}
         </div>

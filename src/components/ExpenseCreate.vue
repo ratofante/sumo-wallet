@@ -19,7 +19,6 @@ const emit = defineEmits(['expense-created', 'create-error']);
 
 const createExpense = async () => {
   processingForm.value = true;
-  console.log(form, store.state.user.id);
 
   try {
     const { data, error } = await supabase
@@ -32,15 +31,14 @@ const createExpense = async () => {
         }
       ])
       .select();
-
     console.log(data, error);
-    //if (error) throw new Error(error.message);
-
-    //expense.value(data);
+    if (error) throw new Error(error.message);
   } catch (error) {
     form.errorMsg.value = error.message;
   } finally {
     emit('expense-created', expense.value);
+    form.amount = 0;
+    form.name = '';
     processingForm.value = false;
   }
 };
@@ -51,6 +49,14 @@ const createExpense = async () => {
       @submit.prevent="createExpense"
       class="w-full bg-rose-100 border-4 border-rose-950 border-opacity-50 p-4 rounded dark:bg-slate-800 transition-colors"
     >
+      <FormInputText
+        name="expense_name"
+        label="Name"
+        type="text"
+        v-model="form.name"
+        placeholder="Describe your expense"
+        :autofocus="true"
+      />
       <FormInputNumber
         name="expense_amount"
         label="Amount"
@@ -58,12 +64,7 @@ const createExpense = async () => {
         :autofocus="true"
         v-model="form.amount"
       />
-      <FormInputText
-        name="expense_name"
-        label="Name"
-        type="text"
-        v-model="form.name"
-      />
+
       <FormErrorMsg :message="form.errorMsg" />
 
       <div class="flex flex-col items-center gap-1 mt-8">

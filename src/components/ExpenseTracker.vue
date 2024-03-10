@@ -14,6 +14,8 @@ const expensesArr = ref([]);
 const dialog = ref();
 
 const getExpenses = async () => {
+  expensesArr.value = [];
+
   // Get the current month and year
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1; // Months are zero-based in JavaScript
@@ -32,6 +34,7 @@ const getExpenses = async () => {
     errorMsg.value = error.message;
   } else {
     expenses.forEach((expense) => expensesArr.value.push(expense));
+    console.log(expensesArr.value);
   }
   loadingData.value = false;
 };
@@ -61,7 +64,7 @@ onMounted(() => {
     </div>
 
     <div
-      class="min-h-48 flex flex-col justify-center items-center my-4 p-4 rounded-md border-4 border-rose-950 border-opacity-80 bg-rose-200 bg-opacity-70"
+      class="min-h-48 flex flex-col justify-center items-center my-4 p-2 rounded-md border-4 border-rose-950 border-opacity-80 bg-rose-200 bg-opacity-70"
     >
       <div
         v-if="loadingData"
@@ -80,7 +83,6 @@ onMounted(() => {
         :amount="item.expense_amount"
         :date="item.created_at"
       />
-
       <div
         v-if="!loadingData && expensesArr.length === 0"
         class="text-center text-sm"

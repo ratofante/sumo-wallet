@@ -35,7 +35,7 @@ onMounted(() => {
     class="flex items-center px-[2px] w-8 h-4 ml- rounded-full bg-rose-100"
   >
     <div
-      class="grid place-items-center rounded-full w-3 h-3 bg-white"
+      class="grid place-items-center rounded-full w-3 h-3 bg-slate-50"
       :class="classes"
     >
       <SunIcon

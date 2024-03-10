@@ -9,7 +9,7 @@ import LinkPrimary from '@/components/LinkPrimary.vue';
       <!-- Title-->
       <div class="mt-4">
         <h1
-          class="font-serif text-big-title text-center text-slate-950 dark:text-white transition-colors"
+          class="font-serif text-big-title text-center text-slate-950 dark:text-slate-50 transition-colors"
         >
           Sumo's Wallet
         </h1>
