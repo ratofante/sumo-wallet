@@ -2,8 +2,9 @@
 import { ref } from 'vue';
 import { supabase } from '@/supabase';
 import { RouterView, useRouter } from 'vue-router';
-import NavigationBar from './components/NavigationBar.vue';
+import NavigationBar from './components/Navigation/NavigationBar.vue';
 import store from './stores/userStore';
+import useDispatchEvent from './composables/useDispatchEvent.js';
 
 const appReady = ref(null);
 const router = useRouter();
@@ -33,7 +34,7 @@ const checkForProfile = async () => {
     try {
       await getProfile();
       if (store.state.profile) {
-        window.dispatchEvent(new CustomEvent('new-profile'));
+        useDispatchEvent('new-profile');
       }
     } catch (error) {
       console.error('Error while fetching profile:', error);
@@ -49,18 +50,21 @@ supabase.auth.onAuthStateChange((event, _session) => {
     store.methods.setUser(_session);
     checkForProfile();
   }
-  if (event === 'SIGNED_OUT') console.log('LOGGED OUT');
+  if (event === 'SIGNED_OUT') {
+    store.methods.removeUser();
+    useDispatchEvent('signed-out');
+  }
   if (event === 'PASSWORD_RECOVERY') router.push({ name: 'update-password' });
 
   appReady.value = true;
-  window.dispatchEvent(new CustomEvent('app-ready'));
+  useDispatchEvent('app-ready');
 });
 </script>
 
 <template>
   <div
     v-if="appReady"
-    class="relative max-w-md md:max-w-3xl mx-auto min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors"
+    class="relative max-w-md md:max-w-3xl mx-auto min-h-screen bg-rose-50 dark:bg-slate-950 transition-colors"
   >
     <header class="absolute top-0 left-0 w-full">
       <NavigationBar />

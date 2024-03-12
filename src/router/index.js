@@ -7,6 +7,7 @@ import UpdatePasswordView from '@/views/UpdatePasswordView.vue';
 import DashboardView from '@/views/DashboardView.vue';
 import ProfileView from '@/views/ProfileView.vue';
 import NotificationsView from '@/views/NotificationsView.vue';
+import ExpenseShowView from '@/views/ExpenseShowView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,10 @@ const router = createRouter({
       path: '/notifications',
       name: 'notifications',
       component: NotificationsView
+    },
+    {
+      path: '/expense-show/:id',
+      component: ExpenseShowView
     }
   ]
 });

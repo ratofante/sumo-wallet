@@ -2,8 +2,8 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { BellIcon } from '@heroicons/vue/24/outline';
 import store from '@/stores/userStore.js';
-import ButtonDropdown from '@/components/ButtonDropdown.vue';
-import LinkSimple from './LinkSimple.vue';
+import ButtonDropdown from '@/components/Button/ButtonDropdown.vue';
+import LinkSimple from '@/components/Link/LinkSimple.vue';
 
 const dropdown = ref();
 const notifications = ref([

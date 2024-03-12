@@ -1,5 +1,5 @@
 <script setup>
-import LinkSimple from '@/components/LinkSimple.vue';
+import LinkSimple from '@/components/Link/LinkSimple.vue';
 </script>
 <template>
   <ul class="relative flex gap-4 text-xs font-medium">

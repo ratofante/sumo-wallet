@@ -1,12 +1,15 @@
 <script setup>
+import ExpenseCreate from '@/components/Expense/ExpenseCreate.vue';
+import ExpenseRow from '@/components/Expense/ExpenseRow.vue';
+import ButtonSecondary from '@/components/Button/ButtonSecondary.vue';
+import ModalDialog from '@/components/ModalDialog.vue';
+
+import { PlusIcon, ArrowPathIcon } from '@heroicons/vue/16/solid';
+
 import { ref, onMounted } from 'vue';
 import { supabase } from '@/supabase.js';
 import store from '@/stores/userStore';
-import ButtonSecondary from '@/components/ButtonSecondary.vue';
-import ModalDialog from '@/components/ModalDialog.vue';
-import { PlusIcon, ArrowPathIcon } from '@heroicons/vue/16/solid';
-import ExpenseCreate from '@/components/ExpenseCreate.vue';
-import ExpenseRow from '@/components/ExpenseRow.vue';
+import ExpenseContainer from './ExpenseContainer.vue';
 
 const loadingData = ref(true);
 const errorMsg = ref(null);
@@ -27,7 +30,8 @@ const getExpenses = async () => {
     .select('*')
     .eq('user_id', store.state.user.id) // Filter by user_id
     .gte('created_at', `${currentYear}-${currentMonth}-01T00:00:00Z`) // Filter by start of current month
-    .lte('created_at', `${currentYear}-${currentMonth}-31T23:59:59Z`); // Filter by end of current month
+    .lte('created_at', `${currentYear}-${currentMonth}-31T23:59:59Z`) // Filter by end of current month
+    .order('created_at', { ascending: false }); // Order by created_at column in descending order (newest to oldest)
 
   if (error) {
     console.log(`Error: ${error.message}`);
@@ -39,7 +43,7 @@ const getExpenses = async () => {
   loadingData.value = false;
 };
 
-const expenseCreated = () => {
+const expenseCreated = async () => {
   dialog.value.close();
   getExpenses();
 };
@@ -63,9 +67,7 @@ onMounted(() => {
       </ModalDialog>
     </div>
 
-    <div
-      class="min-h-48 flex flex-col justify-center items-center my-4 p-2 rounded-md border-4 border-rose-950 border-opacity-80 bg-rose-200 bg-opacity-70"
-    >
+    <ExpenseContainer>
       <div
         v-if="loadingData"
         class="flex gap-2 items-center justify-center"
@@ -77,11 +79,9 @@ onMounted(() => {
         {{ errorMsg }}
       </div>
       <ExpenseRow
-        v-for="item in expensesArr"
-        :key="item.id"
-        :name="item.expense_name"
-        :amount="item.expense_amount"
-        :date="item.created_at"
+        v-for="expense in expensesArr"
+        :key="expense.id"
+        :expense="expense"
       />
       <div
         v-if="!loadingData && expensesArr.length === 0"
@@ -91,6 +91,6 @@ onMounted(() => {
         <br />
         Push the add button at the upper right corner and start adding expenses.
       </div>
-    </div>
+    </ExpenseContainer>
   </section>
 </template>

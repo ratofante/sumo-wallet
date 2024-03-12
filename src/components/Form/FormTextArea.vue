@@ -4,12 +4,7 @@ import { ref, onMounted } from 'vue';
 defineProps({
   name: {
     type: String,
-    default: '',
     required: true
-  },
-  label: {
-    type: String,
-    default: 'Input Label'
   },
   autofocus: {
     type: Boolean,
@@ -17,7 +12,7 @@ defineProps({
   },
   placeholder: {
     type: String,
-    default: ''
+    default: 'Write your notes..'
   }
 });
 
@@ -37,29 +32,33 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col gap-2 my-4">
-    <div class="flex flex-col-reverse gap-2">
-      <input
-        @input="$emit('updateValue', $event.target.value)"
-        type="text"
-        :name="name"
-        :id="name"
-        v-model="model"
-        :autocomplete="name"
-        :autofocus="autofocus"
-        :placeholder="placeholder"
-        ref="input"
-        class="peer box-border h-10 p-2 rounded-sm border-transparent focus:bg-slate-50 focus:border-rose-400 focus:outline-none focus:border-b-2 transition-colors"
-      />
+    <div class="flex flex-col-reverse gap-2 border-b-2 has-[:focus]:border-rose-800">
+      <div class="flex items-center gap-2">
+        <slot name="icon" />
+        <textarea
+          @input="$emit('updateValue', $event.target.value)"
+          :name="name"
+          :id="name"
+          rows="2"
+          cols="8"
+          v-model="model"
+          :autocomplete="name"
+          :autofocus="autofocus"
+          :placeholder="placeholder"
+          ref="input"
+          class="peer w-full resize-none h-10 p-2 text-slate-900 dark:text-slate-200 rounded-sm bg-transparent focus:outline-none"
+        />
+      </div>
       <label
         :for="name"
         class="font-semibold text-sm text-slate-900 peer-focus:text-rose-900 dark:text-slate-200 dark:peer-focus:text-rose-600 transition-colors"
       >
-        {{ label }}
+        <slot />
       </label>
     </div>
 
     <div>
-      <slot />
+      <slot name="hint" />
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import LinkSimple from '@/components/LinkSimple.vue';
+import LinkSimple from '@/components/Link/LinkSimple.vue';
 </script>
 <template>
   <div class="navigation__menu fixed z-30 top-0 left-0 min-h-screen w-full bg-rose-950">

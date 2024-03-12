@@ -9,6 +9,9 @@ const methods = {
   setUser(payload) {
     state.user = payload ? payload.user : null;
   },
+  removeUser() {
+    state.user = null;
+  },
   setProfile(data) {
     state.profile = data ?? null;
   }

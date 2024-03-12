@@ -32,7 +32,7 @@ onMounted(() => {
 <template>
   <button
     @click="toggleTheme"
-    class="flex items-center px-[2px] w-8 h-4 ml- rounded-full bg-rose-100"
+    class="flex items-center px-[2px] w-8 h-4 ml- rounded-full bg-rose-100 dark:bg-slate-600 transition-colors"
   >
     <div
       class="grid place-items-center rounded-full w-3 h-3 bg-slate-50"
