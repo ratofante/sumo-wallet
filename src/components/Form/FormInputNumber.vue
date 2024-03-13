@@ -21,7 +21,6 @@ const model = defineModel({
   type: String,
   required: true
 });
-
 const input = ref(null);
 
 defineEmits(['updateValue']);

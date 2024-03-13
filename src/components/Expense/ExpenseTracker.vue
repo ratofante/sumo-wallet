@@ -24,26 +24,27 @@ const getExpenses = async () => {
   const currentMonth = currentDate.getMonth() + 1; // Months are zero-based in JavaScript
   const currentYear = currentDate.getFullYear();
 
-  // Query expenses for the current user and current month
-  let { data: expenses, error } = await supabase
-    .from('expenses')
-    .select('*')
-    .eq('user_id', store.state.user.id) // Filter by user_id
-    .gte('created_at', `${currentYear}-${currentMonth}-01T00:00:00Z`) // Filter by start of current month
-    .lte('created_at', `${currentYear}-${currentMonth}-31T23:59:59Z`) // Filter by end of current month
-    .order('created_at', { ascending: false }); // Order by created_at column in descending order (newest to oldest)
+  try {
+    // Query expenses for the current user and current month
+    let { data: expenses, error } = await supabase
+      .from('expenses')
+      .select('*')
+      .eq('user_id', store.state.user.id)
+      .gte('created_at', `${currentYear}-${currentMonth}-01T00:00:00Z`) // Filter by start of current month
+      .lte('created_at', `${currentYear}-${currentMonth}-31T23:59:59Z`) // Filter by end of current month
+      .order('created_at', { ascending: false });
 
-  if (error) {
-    console.log(`Error: ${error.message}`);
-    errorMsg.value = error.message;
-  } else {
+    if (error) throw new Error(error.message);
+
     expenses.forEach((expense) => expensesArr.value.push(expense));
-    console.log(expensesArr.value);
+  } catch (error) {
+    errorMsg.value = error.message;
+  } finally {
+    loadingData.value = false;
   }
-  loadingData.value = false;
 };
 
-const expenseCreated = async () => {
+const onExpenseCreated = async () => {
   dialog.value.close();
   getExpenses();
 };
@@ -63,7 +64,10 @@ onMounted(() => {
         <template #label>Add</template>
       </ButtonSecondary>
       <ModalDialog ref="dialog">
-        <ExpenseCreate @expense-created="expenseCreated" />
+        <ExpenseCreate
+          @expense-created="onExpenseCreated"
+          @close-dialog="dialog.close()"
+        />
       </ModalDialog>
     </div>
 

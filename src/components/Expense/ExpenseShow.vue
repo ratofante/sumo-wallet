@@ -1,7 +1,13 @@
 <script setup>
-import LinkPrimary from '../Link/LinkPrimary.vue';
+import ExpenseEdit from '@/components/Expense/ExpenseEdit.vue';
+import ButtonSingleIcon from '@/components/Button/ButtonSingleIcon.vue';
+import ModalDialog from '@/components/ModalDialog.vue';
 
 import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/16/solid';
+
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import ExpenseDetail from './ExpenseDetail.vue';
 
 defineProps({
   expense: {
@@ -9,38 +15,54 @@ defineProps({
     required: true
   }
 });
+
+const editDialog = ref(null);
+const router = useRouter();
+
+const onExpenseEdited = () => {
+  editDialog.value.close();
+  router.push({ name: 'dashboard' });
+};
 </script>
 
 <template>
-  <article>
-    <header class="flex justify-between">
-      <div>
+  <article class="w-full">
+    <header class="flex justify-between items-end">
+      <h2 class="capitalize font-medium text-lg tracking-tight leading-none dark:text-slate-200">
         {{ expense.expense_name }}
-      </div>
-      <menu class="flex">
+      </h2>
+      <menu class="flex gap-2">
         <li>
-          <LinkPrimary
-            path="/"
-            size="small"
-            class="w-8 h-8"
-          >
+          <ButtonSingleIcon>
             <template v-slot:icon>
               <TrashIcon class="w-4 h-4 text-slate-50" />
             </template>
-          </LinkPrimary>
+          </ButtonSingleIcon>
         </li>
         <li>
-          <LinkPrimary
-            path="/"
-            size="small"
-            class="w-8 h-8"
+          <ButtonSingleIcon
+            @click="editDialog.show()"
+            theme="secondary"
           >
             <template v-slot:icon>
               <PencilSquareIcon class="w-4 h-4 text-slate-50" />
             </template>
-          </LinkPrimary>
+          </ButtonSingleIcon>
+          <ModalDialog ref="editDialog">
+            <ExpenseEdit
+              :expense="expense"
+              @expense-edited="onExpenseEdited"
+              @close-dialog="editDialog.close()"
+            />
+          </ModalDialog>
         </li>
       </menu>
     </header>
+    <ExpenseDetail
+      :amount="expense.expense_amount"
+      :note="expense.expense_note"
+      :created-at="expense.created_at"
+      :updated-at="expense.updated_at"
+    />
   </article>
 </template>

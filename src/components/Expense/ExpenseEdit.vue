@@ -1,4 +1,5 @@
 <script setup>
+import ExpenseForm from '@/components/Expense/ExpenseForm.vue';
 import FormInputNumber from '@/components/Form/FormInputNumber.vue';
 import FormInputText from '@/components/Form/FormInputText.vue';
 import FormTextArea from '@/components/Form/FormTextArea.vue';
@@ -13,46 +14,62 @@ import {
   PencilSquareIcon
 } from '@heroicons/vue/16/solid';
 
-import { reactive, ref } from 'vue';
 import { supabase } from '@/supabase';
-import store from '@/stores/userStore';
-import ExpenseForm from './ExpenseForm.vue';
+import { reactive, ref, watch } from 'vue';
 
-const expense = ref(null);
-const processingForm = ref(false);
-const form = reactive({
-  name: '',
-  amount: '',
-  note: '',
-  errorMsg: null
+const props = defineProps({
+  expense: {
+    type: Object,
+    required: true
+  }
 });
-const emit = defineEmits(['expense-created', 'create-error', 'close-dialog']);
 
-const createExpense = async () => {
+const emit = defineEmits(['expense-edited', 'edit-error', 'close-dialog']);
+
+const processingForm = ref(false);
+
+const form = reactive({
+  name: props.expense_name ?? '',
+  amount: props.expense_amount ?? '',
+  note: props.expense_note ?? '',
+  errorMsg: ''
+});
+
+watch(
+  () => props.expense,
+  (newValue) => {
+    if (newValue) {
+      form.name = newValue.expense_name || '';
+      form.amount = newValue.expense_amount.toString() || '';
+      form.note = newValue.expense_note || '';
+    }
+  },
+  { immediate: true }
+);
+
+const editExpense = async () => {
   processingForm.value = true;
-
   try {
     const { data, error } = await supabase
       .from('expenses')
-      .insert([
-        {
-          expense_name: form.name,
-          expense_amount: Number(form.amount),
-          expense_note: form.note,
-          user_id: store.state.user.id
-        }
-      ])
+      .update({
+        expense_name: form.name,
+        expense_amount: form.amount,
+        expense_note: form.note
+      })
+      .eq('id', props.expense.id)
       .select();
 
     if (error) throw new Error(error.message);
-    form.amount = 0;
+
     form.name = '';
+    form.amount = '';
     form.note = '';
-    expense.value = data;
-    emit('expense-created', expense.value);
+
+    emit('expense-edited', data);
   } catch (error) {
-    form.errorMsg.value = error.message;
-    emit('create-error', error.message);
+    console.log(`-- from catch -- Error: ${error.message}`);
+    emit('edit-error', error.message);
   } finally {
     processingForm.value = false;
   }
@@ -60,10 +77,10 @@ const createExpense = async () => {
 </script>
 <template>
   <ExpenseForm
-    title="Create expense"
+    title="Edit expense"
     @close-dialog="$emit('close-dialog')"
   >
-    <form @submit.prevent="createExpense">
+    <form @submit.prevent="editExpense">
       <FormInputText
         name="expense_name"
         label="Name"
@@ -112,7 +129,7 @@ const createExpense = async () => {
           :disabled="processingForm"
         >
           <template #label>
-            <span v-if="!processingForm">Add Expense</span>
+            <span v-if="!processingForm">Edit Expense</span>
             <span v-else>loading</span>
           </template>
           <template #icon>

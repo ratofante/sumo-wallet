@@ -1,13 +1,14 @@
 <script setup>
 import ExpenseContainer from '@/components/Expense/ExpenseContainer.vue';
 import ExpenseShow from '@/components/Expense/ExpenseShow.vue';
+import ButtonGoBack from '@/components/Button/ButtonGoBack.vue';
 
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { supabase } from '@/supabase';
 import { onMounted, ref } from 'vue';
 
+const router = useRouter();
 const route = useRoute();
-
 const loadingExpense = ref(false);
 const expense = ref(null);
 const errorMsg = ref('');
@@ -27,6 +28,10 @@ const getExpense = async (id) => {
   }
 };
 
+const goBack = () => {
+  router.push({ name: 'dashboard' });
+};
+
 onMounted(() => {
   getExpense(route.params.id);
 });
@@ -34,13 +39,17 @@ onMounted(() => {
 
 <template>
   <div>
-    <h2 class="title-lg">Expense show</h2>
+    <div class="flex justify-between items-center">
+      <h2 class="title-lg mb-0">Expense show</h2>
+      <ButtonGoBack @click="goBack" />
+    </div>
 
     <ExpenseContainer>
       <div v-if="loadingExpense">Loading</div>
-      <div v-else-if="expense">
-        <ExpenseShow :expense="expense" />
-      </div>
+      <ExpenseShow
+        v-else-if="expense"
+        :expense="expense"
+      />
       <div else>
         {{ errorMsg }}
       </div>

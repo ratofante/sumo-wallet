@@ -18,7 +18,7 @@ const date = dayJS(props.expense.created_at);
 <template>
   <RouterLink
     :to="`/expense-show/${expense.id}`"
-    class="w-full flex items-end justify-between my-1"
+    class="w-full flex items-center justify-between my-1"
   >
     <div
       class="flex flex-col items-center justify-center shrink-0 w-10 h-10 text-slate-50 bg-slate-800 rounded-sm overflow-hidden"
@@ -26,8 +26,8 @@ const date = dayJS(props.expense.created_at);
       <span class="text-[10px]">{{ date.format('MMM') }}</span>
       <span class="text-sm">{{ date.format('DD') }}</span>
     </div>
-    <div class="ml-4 mr-auto">
-      <span class="block">{{ expense.expense_name }}</span>
+    <div class="flex flex-col justify-center ml-4 mr-auto">
+      <span class="line-clamp-1">{{ expense.expense_name }}</span>
       <span class="line-clamp-1 text-xs">{{ expense.expense_note }}</span>
     </div>
     <div class="flex text-lg tracking-tighter w-1/3">
