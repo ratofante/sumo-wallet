@@ -55,7 +55,8 @@ const editExpense = async () => {
       .update({
         expense_name: form.name,
         expense_amount: form.amount,
-        expense_note: form.note
+        expense_note: form.note,
+        updated_at: new Date().toISOString()
       })
       .eq('id', props.expense.id)
       .select();

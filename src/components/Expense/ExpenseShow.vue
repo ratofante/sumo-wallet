@@ -1,5 +1,7 @@
 <script setup>
 import ExpenseEdit from '@/components/Expense/ExpenseEdit.vue';
+import ExpenseDelete from '@/components/Expense/ExpenseDelete.vue';
+import ExpenseDetail from '@/components/Expense/ExpenseDetail.vue';
 import ButtonSingleIcon from '@/components/Button/ButtonSingleIcon.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
 
@@ -7,7 +9,6 @@ import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/16/solid';
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import ExpenseDetail from './ExpenseDetail.vue';
 
 defineProps({
   expense: {
@@ -17,10 +18,16 @@ defineProps({
 });
 
 const editDialog = ref(null);
+const deleteDialog = ref(null);
 const router = useRouter();
 
 const onExpenseEdited = () => {
   editDialog.value.close();
+  router.push({ name: 'dashboard' });
+};
+
+const onExpenseDeleted = () => {
+  deleteDialog.value.close();
   router.push({ name: 'dashboard' });
 };
 </script>
@@ -33,11 +40,18 @@ const onExpenseEdited = () => {
       </h2>
       <menu class="flex gap-2">
         <li>
-          <ButtonSingleIcon>
+          <ButtonSingleIcon @click="deleteDialog.show()">
             <template v-slot:icon>
               <TrashIcon class="w-4 h-4 text-slate-50" />
             </template>
           </ButtonSingleIcon>
+          <ModalDialog ref="deleteDialog">
+            <ExpenseDelete
+              :id="expense.id"
+              @expense-deleted="onExpenseDeleted"
+              @close-dialog="deleteDialog.close()"
+            />
+          </ModalDialog>
         </li>
         <li>
           <ButtonSingleIcon

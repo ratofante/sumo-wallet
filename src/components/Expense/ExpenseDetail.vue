@@ -30,8 +30,8 @@ const updatedAt = dayJS(props.updatedAt);
       &dollar; {{ useAddThousandSeparator(amount) }}
     </div>
     <div class="flex flex-col text-xs dark:text-slate-300">
-      <span>Added at {{ createdAt.format('D MMM YYYY') }}</span>
-      <span>Updated at {{ updatedAt.format('D MMM YYYY') }}</span>
+      <span>Added at {{ createdAt.format('HH:mm D MMM YYYY') }}</span>
+      <span>Updated at {{ updatedAt.format('HH:mm D MMM YYYY') }}</span>
     </div>
   </div>
   <div>
