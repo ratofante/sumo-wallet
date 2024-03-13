@@ -1,7 +1,10 @@
 <script setup>
-import FormTextInput from '@/components/FormTextInput.vue';
-import FormErrorMsg from '@/components/FormErrorMsg.vue';
-import ButtonPrimary from '@/components/ButtonPrimary.vue';
+import FormInputText from '@/components/Form/FormInputText.vue';
+import FormErrorMsg from '@/components/Form/FormErrorMsg.vue';
+import ButtonPrimary from '@/components/Button/ButtonPrimary.vue';
+
+import { KeyIcon, LockClosedIcon } from '@heroicons/vue/16/solid';
+
 import { supabase } from '@/supabase';
 import { reactive, ref } from 'vue';
 
@@ -31,32 +34,45 @@ const updatePassword = async () => {
 };
 </script>
 <template>
-  <div>
-    <h2 class="text-3xl text-left mb-12 tracking-tight font-bold text-rose-950">Update Password</h2>
+  <div class="px-4 py-8 bg-slate-50 dark:bg-slate-800 transition-colors">
+    <div class="mb-12">
+      <h2 class="title-lg">Update Password</h2>
+    </div>
 
     <form
       @submit.prevent="updatePassword"
-      class="bg-zinc-800 p-4 rounded"
+      class="w-full"
     >
-      <FormTextInput
+      <FormInputText
         label="Password"
         name="password"
-        v-model="form.newPassword"
+        v-model="form.password"
         type="password"
-      />
-      <FormTextInput
+        placeholder="Your password"
+      >
+        <template v-slot:icon>
+          <KeyIcon class="w-4 h-4 dark:text-slate-200" />
+        </template>
+        Password
+      </FormInputText>
+      <FormInputText
         label="Confirm Password"
         name="confirmpassword"
         v-model="form.confirmPassword"
         type="password"
-      />
+      >
+        Confirm password
+        <template v-slot:icon>
+          <LockClosedIcon class="w-4 h-4 dark:text-slate-200" />
+        </template>
+      </FormInputText>
       <FormErrorMsg :message="form.errorMsg" />
-      <div class="flex items-center gap-4">
+      <div class="flex items-center justify-center gap-4 mt-8">
         <ButtonPrimary
           type="submit"
           :disabled="processingForm"
         >
-          Submit
+          Set Password
         </ButtonPrimary>
       </div>
     </form>

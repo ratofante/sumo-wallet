@@ -44,8 +44,8 @@ const toggleMenu = () => {
         class="absolute"
       >
         <div class="relative w-[20px] h-[14px] grid place-items-center">
-          <div class="bar absolute rotate-45 w-full h-[2px] bg-white"></div>
-          <div class="bar absolute -rotate-45 w-full h-[2px] bg-white"></div>
+          <div class="bar absolute rotate-45 w-full h-[2px] bg-slate-50"></div>
+          <div class="bar absolute -rotate-45 w-full h-[2px] bg-slate-50"></div>
         </div>
       </div>
     </div>

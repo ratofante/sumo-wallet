@@ -1,6 +1,6 @@
 <script setup>
-import LinkSimple from '@/components/LinkSimple.vue';
-import LinkPrimary from '@/components/LinkPrimary.vue';
+import LinkSimple from '@/components/Link/LinkSimple.vue';
+import LinkPrimary from '@/components/Link/LinkPrimary.vue';
 </script>
 
 <template>
@@ -9,12 +9,12 @@ import LinkPrimary from '@/components/LinkPrimary.vue';
       <!-- Title-->
       <div class="mt-4">
         <h1
-          class="font-serif text-big-title text-center text-slate-950 dark:text-white transition-colors"
+          class="font-serif text-big-title text-center text-slate-950 dark:text-slate-50 transition-colors"
         >
           Sumo's Wallet
         </h1>
         <p
-          class="font-serif text-md text-center text-slate-800 pt-2 leading-none dark:text-slate-200 transition-colors"
+          class="font-sans font-medium text-sm text-center text-slate-700 pt-2 leading-none dark:text-slate-200 transition-colors"
         >
           Your everyday
           <br />
@@ -24,7 +24,8 @@ import LinkPrimary from '@/components/LinkPrimary.vue';
       <!-- login-->
       <LinkPrimary
         path="/register"
-        class="w-fit mx-auto my-8"
+        class="mx-auto my-8"
+        size="large"
       >
         Join
       </LinkPrimary>
@@ -32,7 +33,7 @@ import LinkPrimary from '@/components/LinkPrimary.vue';
       <div class="mx-auto">
         <LinkSimple
           path="/login"
-          class="text-rose-500 font-medium text-xs dark:text-rose-300 dark:opacity-70 transition-colors"
+          class="text-slate-800 font-medium text-xs dark:text-rose-300 dark:opacity-70 transition-colors"
         >
           Already have an account?
         </LinkSimple>
@@ -40,7 +41,7 @@ import LinkPrimary from '@/components/LinkPrimary.vue';
     </div>
     <!-- background -->
     <div
-      class="absolute top-0 center-absolute-horizontal h-full w-[60%] bg-rose-50 border-4 border-rose-950 border-opacity-5 rounded-md z-0 overflow-hidden dark:bg-slate-800 dark:border-rose-300 dark:border-opacity-15 transition-colors"
+      class="absolute top-0 center-absolute-horizontal h-full w-[60%] bg-slate-50 border-4 border-rose-950 border-opacity-5 rounded-md z-0 overflow-hidden dark:bg-slate-800 dark:border-rose-300 dark:border-opacity-15 transition-colors"
     >
       <img
         src="/img/logo_alt_2.png"
