@@ -3,5 +3,5 @@ import HomeHero from '@/views/partials/HomeHero.vue';
 </script>
 
 <template>
-  <HomeHero />
+    <HomeHero />
 </template>

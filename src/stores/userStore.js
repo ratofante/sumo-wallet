@@ -1,23 +1,23 @@
 import { reactive } from 'vue';
 
 const state = reactive({
-  user: null,
-  profile: null
+    user: null,
+    profile: null
 });
 
 const methods = {
-  setUser(payload) {
-    state.user = payload ? payload.user : null;
-  },
-  removeUser() {
-    state.user = null;
-  },
-  setProfile(data) {
-    state.profile = data ?? null;
-  }
+    setUser(payload) {
+        state.user = payload ? payload.user : null;
+    },
+    removeUser() {
+        state.user = null;
+    },
+    setProfile(data) {
+        state.profile = data ?? null;
+    }
 };
 
 export default {
-  state,
-  methods
+    state,
+    methods
 };
