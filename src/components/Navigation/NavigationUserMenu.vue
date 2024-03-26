@@ -10,6 +10,7 @@ import {
 
 import { supabase } from '@/supabase';
 import { useRouter } from 'vue-router';
+import store from '@/stores/userStore';
 
 const emit = defineEmits(['close-user-menu']);
 const router = useRouter();
@@ -39,9 +40,11 @@ const logout = async () => {
             <div class="flex gap-8 justify-between">
                 <div class="flex flex-col">
                     <span class="font-medium text-lg text-slate-800 dark:text-slate-50">
-                        Username
+                        {{ store.state.profile?.username ?? 'Username' }}
                     </span>
-                    <span class="text-rose-400 text-opacity-80 font text-xs">user@mail.com</span>
+                    <span class="text-rose-400 text-opacity-80 font text-xs">
+                        {{ store.state.user?.email ?? 'user@mail.com' }}
+                    </span>
                 </div>
                 <div class="w-16 h-16 rounded-full border-2 border-rose-800 overflow-hidden">
                     <img

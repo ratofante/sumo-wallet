@@ -26,14 +26,14 @@ const sumAllExpenses = () => {
 
 <template>
     <RouterLink :to="`/wallet/${wallet.id}`">
-        <article class="bg-slate-50 p-2 mb-4 border-b-2 rounded-md">
+        <article class="bg-slate-50 p-2 mb-4 border-b-2 rounded-md shadow-md">
             <header class="flex justify-between items-center px-2 mb-2">
                 <h6 class="text-2xl font-serif">{{ wallet.name }}</h6>
                 <div class="text-xs tracking-tighter">{{ createdAt.format('DD MMM YYYY') }}</div>
             </header>
             <div
                 v-if="wallet.expenses.length > 0"
-                class="bg-rose-50 py-4 px-2 border-b-2 border-rose-300"
+                class="bg-rose-200 py-4 px-2 border-b-2 border-rose-300 rounded-sm overflow-hidden"
             >
                 <div class="flex justify-between items-center text-sm mb-4">
                     <span class="tracking-tight">{{ wallet.expenses.length }} expenses</span>

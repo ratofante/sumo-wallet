@@ -18,6 +18,10 @@ defineProps({
     type: {
         type: String,
         default: 'text'
+    },
+    disabled: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -49,8 +53,9 @@ onMounted(() => {
                     :autocomplete="name"
                     :autofocus="autofocus"
                     :placeholder="placeholder"
+                    :disabled="disabled"
                     ref="input"
-                    class="peer h-10 p-2 text-slate-900 dark:text-slate-200 rounded-sm bg-transparent focus:outline-none"
+                    class="peer h-10 p-2 text-slate-900 dark:text-slate-200 rounded-sm bg-transparent focus:outline-none disabled:opacity-50"
                 />
             </div>
             <label

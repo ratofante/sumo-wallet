@@ -6,7 +6,7 @@ import ButtonPrimary from '@/components/Button/ButtonPrimary.vue';
 
 import { EnvelopeIcon, KeyIcon, LockClosedIcon } from '@heroicons/vue/16/solid';
 
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { supabase } from '../supabase.js';
 import { useRouter } from 'vue-router';
 
@@ -19,25 +19,44 @@ const form = reactive({
     errorMsg: null
 });
 
+const canProcessForm = ref(false);
 const processingForm = ref(false);
+const matchingPasswords = reactive({
+    state: false,
+    msg: ''
+});
 
-const register = async () => {
-    processingForm.value = true;
-    if (form.password === form.confirmPassword) {
-        try {
-            const { error } = await supabase.auth.signUp({
-                email: form.email,
-                password: form.password
-            });
-            if (error) throw error;
-            router.push({ name: 'login' });
-        } catch (error) {
-            form.errorMsg = 'Error: ' + error.message;
-        } finally {
-            processingForm.value = false;
+watch(form, (newValues) => {
+    if (newValues.password.length !== 0 && newValues.confirmPassword.length !== 0) {
+        if (newValues.password !== newValues.confirmPassword) {
+            matchingPasswords.state = false;
+            matchingPasswords.msg = 'There is no match bewteen your passwords';
+        } else {
+            matchingPasswords.state = true;
+            matchingPasswords.msg = 'Matching passwords';
+            canProcessForm.value = true;
         }
     }
-    form.errorMsg = "Error: passwords don't match";
+});
+
+const register = async () => {
+    if (!canProcessForm.value) {
+        form.errorMsg = 'Complete all form fields, please';
+        return;
+    }
+    processingForm.value = true;
+    try {
+        const { error } = await supabase.auth.signUp({
+            email: form.email,
+            password: form.password
+        });
+        if (error) throw error;
+        router.push({ name: 'login' });
+    } catch (error) {
+        form.errorMsg = 'Error: ' + error.message;
+    } finally {
+        processingForm.value = false;
+    }
 };
 </script>
 <template>
@@ -102,8 +121,19 @@ const register = async () => {
                 type="password"
             >
                 Confirm password
-                <template v-slot:icon>
+                <template #icon>
                     <LockClosedIcon class="w-4 h-4 dark:text-slate-200" />
+                </template>
+                <template #hint>
+                    <span
+                        class="text-xs font-medium text-rose-800"
+                        :class="{
+                            'text-rose-800': !matchingPasswords.state,
+                            'text-slate-950': matchingPasswords.state
+                        }"
+                    >
+                        {{ matchingPasswords.msg }}
+                    </span>
                 </template>
             </FormInputText>
             <!-- <FormSelectInput
