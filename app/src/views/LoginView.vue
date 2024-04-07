@@ -8,16 +8,17 @@ import { EnvelopeIcon, KeyIcon } from '@heroicons/vue/16/solid';
 import { reactive, ref } from 'vue';
 import axios from '@/composables/useAxios';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/useUserStore';
 
 const router = useRouter();
+const { setUser } = useUserStore();
+const processingForm = ref(false);
 
 const form = reactive({
     email: '',
     password: '',
     errorMsg: null
 });
-
-const processingForm = ref(false);
 
 const login = async () => {
     processingForm.value = true;
@@ -30,7 +31,7 @@ const login = async () => {
         const { data } = await axios.get('api/user');
 
         if (data) {
-            console.log(data);
+            setUser(data);
             router.push({ name: 'dashboard' });
         }
     } catch (error) {

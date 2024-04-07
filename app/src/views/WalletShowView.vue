@@ -5,7 +5,6 @@ import ExpenseTracker from '@/components/Expense/ExpenseTracker.vue';
 import { supabase } from '@/supabase';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import useGetUser from '@/composables/useGetUser.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -29,9 +28,7 @@ const getWallet = async (id) => {
 };
 
 onMounted(async () => {
-    const user = await useGetUser();
     getWallet(route.params.id);
-    console.log(user);
 });
 </script>
 <template>

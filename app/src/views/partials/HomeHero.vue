@@ -44,7 +44,7 @@ import LinkPrimary from '@/components/Link/LinkPrimary.vue';
             class="absolute top-0 center-absolute-horizontal h-full w-[60%] bg-slate-50 border-4 border-rose-950 border-opacity-5 rounded-md z-0 overflow-hidden dark:bg-slate-800 dark:border-rose-300 dark:border-opacity-15 transition-colors"
         >
             <img
-                src="/img/logo_alt_2.png"
+                src="@/assets/imgs/logo_alt_2.png"
                 width="100"
                 height="100"
                 alt="Sumo's wallet logo"
