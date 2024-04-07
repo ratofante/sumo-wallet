@@ -2,6 +2,7 @@
 import FormInputText from '@/components/Form/FormInputText.vue';
 import FormErrorMsg from '@/components/Form/FormErrorMsg.vue';
 import ButtonPrimary from '@/components/Button/ButtonPrimary.vue';
+import LoginSpinner from '@/components/LoaderSpinner.vue';
 
 import { EnvelopeIcon, KeyIcon } from '@heroicons/vue/16/solid';
 
@@ -43,6 +44,8 @@ const login = async () => {
 </script>
 <template>
     <div class="px-4 py-8 bg-slate-50 dark:bg-slate-800 transition-colors">
+        <LoginSpinner :show-spinner="processingForm" />
+
         <div class="mb-12">
             <h2 class="title-lg">Login</h2>
             <p class="text-normal">

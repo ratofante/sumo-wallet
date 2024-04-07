@@ -1,6 +1,29 @@
 <script setup>
 import LinkSimple from '@/components/Link/LinkSimple.vue';
 import LinkPrimary from '@/components/Link/LinkPrimary.vue';
+
+import { onMounted, ref } from 'vue';
+import { easeOutBack } from '@/utils/useBeziers.js';
+
+const img = ref();
+
+const introAnimation = () => {
+    img.value.animate(
+        [
+            { transform: 'translate(-50%, -100%) rotate(180deg)' },
+            { transform: 'translate(-50%, -50%) rotate(180deg)' }
+        ],
+        {
+            duration: 800,
+            fill: 'forwards',
+            easing: easeOutBack
+        }
+    );
+};
+
+onMounted(() => {
+    window.addEventListener('app-loader-completed', introAnimation);
+});
 </script>
 
 <template>
@@ -33,7 +56,7 @@ import LinkPrimary from '@/components/Link/LinkPrimary.vue';
             <div class="mx-auto">
                 <LinkSimple
                     path="/login"
-                    class="text-slate-800 font-medium text-xs dark:text-rose-300 dark:opacity-70 transition-colors"
+                    class="text-slate-800 font-medium text-xs dark:text-rose-300 dark:opacity-70 transition-colors cursor-pointer"
                 >
                     Already have an account?
                 </LinkSimple>
@@ -44,11 +67,12 @@ import LinkPrimary from '@/components/Link/LinkPrimary.vue';
             class="absolute top-0 center-absolute-horizontal h-full w-[60%] bg-slate-50 border-4 border-rose-950 border-opacity-5 rounded-md z-0 overflow-hidden dark:bg-slate-800 dark:border-rose-300 dark:border-opacity-15 transition-colors"
         >
             <img
+                ref="img"
                 src="@/assets/imgs/logo_alt_2.png"
                 width="100"
                 height="100"
                 alt="Sumo's wallet logo"
-                class="absolute top-0 left-1/2 -translate-x-[50%] -translate-y-[50%] rotate-180"
+                class="absolute top-0 left-1/2 rotate-180 -translate-y-full"
             />
         </div>
     </section>

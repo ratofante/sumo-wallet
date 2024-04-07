@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { easeInOutQuint, easeOutQuint, easeInQuint } from '@/utils/useBeziers.js';
+import useDispatchEvent from '@/composables/useDispatchEvent';
 
 const appLoader = ref();
 const loaderBar = ref();
@@ -51,7 +52,7 @@ const openingAnimation = () => {
                         imgAnimOut();
 
                         loaderBarAnim.onfinish = () => {
-                            appLoader.value.animate(
+                            const loaderFinish = appLoader.value.animate(
                                 [
                                     { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' },
                                     { clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)' }
@@ -62,6 +63,9 @@ const openingAnimation = () => {
                                     easing: easeInOutQuint
                                 }
                             );
+                            loaderFinish.onfinish = () => {
+                                useDispatchEvent('app-loader-completed');
+                            };
                         };
                     };
                 };
@@ -89,13 +93,13 @@ function loaderBarAnimOut() {
     return loaderBar.value.animate(
         [
             { transform: 'scaleX(100%)', opacity: 1 },
-            { transform: 'scaleX(20%)', opacity: 1 },
+            { transform: 'scaleX(20%)', opacity: 0 },
             { transform: 'scaleX(0%)', opacity: 0 }
         ],
         {
-            duration: 1200,
+            duration: 500,
             fill: 'forwards',
-            easing: 'cubic-bezier(0.86, 0, 0.07, 1)'
+            easing: easeInOutQuint
         }
     );
 }
@@ -107,7 +111,7 @@ function imgAnimIn() {
             duration: 800,
             fill: 'forwards',
             easing: easeOutQuint,
-            delay: 601
+            delay: 500
         }
     );
 }
