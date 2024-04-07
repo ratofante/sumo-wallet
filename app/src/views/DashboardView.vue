@@ -1,21 +1,22 @@
 <script setup>
 import ButtonPrimary from '@/components/Button/ButtonPrimary.vue';
 import axios from '@/composables/useAxios';
-import { ref } from 'vue';
+import { useUserStore } from '@/stores/useUserStore';
+import { useRouter } from 'vue-router';
 
-const user = ref();
+const store = useUserStore();
+const router = useRouter();
 
-async function getUser() {
-    const { data } = await axios.get('/api/user');
-
-    if (data) {
-        user.value = data;
-    }
-}
-
-async function logout() {
-    await axios.post('/logout');
-    user.value = null;
+function logout() {
+    axios
+        .post('/logout')
+        .then(() => {
+            store.userLogout();
+            router.push({ name: 'home' });
+        })
+        .catch((e) => {
+            console.log(e);
+        });
 }
 </script>
 
@@ -30,15 +31,9 @@ async function logout() {
         >
             Logout
         </ButtonPrimary>
-        <ButtonPrimary
-            size="small"
-            @click="getUser"
-        >
-            Get User
-        </ButtonPrimary>
     </div>
 
     <div>
-        {{ user }}
+        {{ store.user }}
     </div>
 </template>

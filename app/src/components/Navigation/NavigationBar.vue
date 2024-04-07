@@ -10,10 +10,11 @@ import ButtonTheme from '@/components/Button/ButtonTheme.vue';
 import ButtonMenu from '@/components/Button/ButtonMenu.vue';
 
 import { RouterLink } from 'vue-router';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import store from '@/stores/userStore';
+import { ref } from 'vue';
+import { useUserStore } from '@/stores/useUserStore';
+import { storeToRefs } from 'pinia';
 
-const user = computed(() => store.state.user);
+const { isLogged } = storeToRefs(useUserStore());
 
 const isSectionsMenuOpen = ref(false);
 function toggleSectionsMenu(e) {
@@ -24,18 +25,6 @@ const isUserMenuOpen = ref(false);
 function toggleUserMenu() {
     isUserMenuOpen.value = !isUserMenuOpen.value;
 }
-
-function refresh() {
-    console.log(user);
-}
-
-onMounted(() => {
-    window.addEventListener('signed-out', refresh);
-});
-
-onUnmounted(() => {
-    window.removeEventListener('signed-out', refresh);
-});
 </script>
 <template>
     <nav
@@ -62,7 +51,7 @@ onUnmounted(() => {
                 <li>Logout</li>
             </ul>
             <NavbarUser
-                v-if="user"
+                v-if="isLogged"
                 @avatar-clicked="toggleUserMenu"
             />
             <NavbarSignUp v-else />
