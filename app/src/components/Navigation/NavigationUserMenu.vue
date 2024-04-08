@@ -2,6 +2,8 @@
 import NavigationUserResume from './NavigationUserResume.vue';
 import NavigationUserMenuSections from './NavigationUserMenuSections.vue';
 import NavigationUserMenuLogout from './NavigationUserMenuLogout.vue';
+
+defineEmits(['close-user-menu']);
 </script>
 <template>
     <div>
@@ -14,7 +16,7 @@ import NavigationUserMenuLogout from './NavigationUserMenuLogout.vue';
         >
             <NavigationUserResume />
             <NavigationUserMenuSections />
-            <NavigationUserMenuLogout />
+            <NavigationUserMenuLogout @close-user-menu="$emit('close-user-menu')" />
         </div>
     </div>
 </template>

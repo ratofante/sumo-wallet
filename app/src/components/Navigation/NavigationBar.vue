@@ -9,7 +9,6 @@ import NavbarSignUp from '@/components/Navbar/NavbarSignUp.vue';
 import ButtonTheme from '@/components/Button/ButtonTheme.vue';
 import ButtonMenu from '@/components/Button/ButtonMenu.vue';
 
-import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
 import { useUserStore } from '@/stores/useUserStore';
 import { storeToRefs } from 'pinia';
@@ -45,11 +44,6 @@ function toggleUserMenu() {
             </div>
 
             <NavbarLogo />
-            <!-- <NavbarIcon /> -->
-            <ul class="hidden md:flex gap-4">
-                <li><RouterLink to="/">Home</RouterLink></li>
-                <li>Logout</li>
-            </ul>
             <NavbarUser
                 v-if="isLogged"
                 @avatar-clicked="toggleUserMenu"

@@ -1,14 +1,28 @@
 <script setup>
-import { useRouter } from 'vue-router';
-
 import { PowerIcon } from '@heroicons/vue/24/outline';
+
+import axios from '@/composables/useAxios';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/useUserStore';
 
 const emit = defineEmits(['close-user-menu']);
 const router = useRouter();
+const { userLogout } = useUserStore();
 
 const logout = async () => {
-    router.push({ name: 'home' });
-    emit('close-user-menu');
+    await axios
+        .post('/logout')
+        .then(() => {
+            userLogout();
+            router.push({ name: 'home' });
+        })
+        .catch((e) => {
+            console.log(e);
+        })
+        .finally(() => {
+            emit('close-user-menu');
+            router.push({ name: 'home' });
+        });
 };
 </script>
 <template>
