@@ -1,5 +1,5 @@
 <script setup>
-import useAddThousandSeparator from '@/composables/useAddThousandSeparator.js';
+import useFormatCurrency from '@/composables/useFormatCurrency';
 defineProps({
     amount: {
         type: Number,
@@ -8,5 +8,5 @@ defineProps({
 });
 </script>
 <template>
-    <span class="font-medium">$ {{ useAddThousandSeparator(amount) }}</span>
+    <span class="font-medium">{{ useFormatCurrency(amount) }}</span>
 </template>

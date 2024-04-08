@@ -3,7 +3,7 @@ import ExpenseResume from '@/components//Expense/ExpenseResume.vue';
 import { RouterLink } from 'vue-router';
 
 import { inject } from 'vue';
-import useAddThousandSeparator from '@/composables/useAddThousandSeparator';
+import useFormatCurrency from '@/composables/useFormatCurrency';
 
 const props = defineProps({
     wallet: {
@@ -12,15 +12,17 @@ const props = defineProps({
     }
 });
 
+//console.log('This is coming from WalletResume: ', props.wallet);
+
 const dayJS = inject('dayJS');
 const createdAt = dayJS(props.wallet.created_at);
 
 const sumAllExpenses = () => {
     let sum = 0;
     props.wallet.expenses.forEach((expense) => {
-        sum = sum + expense.amount;
+        sum = sum + parseFloat(expense.amount);
     });
-    return useAddThousandSeparator(sum);
+    return useFormatCurrency(sum);
 };
 </script>
 
@@ -40,7 +42,7 @@ const sumAllExpenses = () => {
                     <span>
                         Total:
                         <span class="text-rose-900 font-semibold tracking-tighter">
-                            $ {{ sumAllExpenses() }}
+                            {{ sumAllExpenses() }}
                         </span>
                     </span>
                 </div>

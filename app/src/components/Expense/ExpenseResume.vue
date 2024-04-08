@@ -11,8 +11,6 @@ const props = defineProps({
     }
 });
 const route = useRoute();
-console.log(props);
-
 const dayJS = inject('dayJS');
 const date = dayJS(props.expense.created_at);
 </script>
@@ -34,7 +32,7 @@ const date = dayJS(props.expense.created_at);
         </div>
         <div class="flex text-lg tracking-tighter w-1/3">
             <span class="inline-block ml-auto">
-                <ExpenseAmount :amount="expense.amount" />
+                <ExpenseAmount :amount="parseFloat(expense.amount)" />
             </span>
         </div>
     </RouterLink>
