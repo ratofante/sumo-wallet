@@ -2,7 +2,7 @@
 import LinkSimple from '@/components/Link/LinkSimple.vue';
 import LinkPrimary from '@/components/Link/LinkPrimary.vue';
 
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { easeOutBack } from '@/utils/useBeziers.js';
 
 const img = ref();
@@ -23,6 +23,12 @@ const introAnimation = () => {
 
 onMounted(() => {
     window.addEventListener('app-loader-completed', introAnimation);
+    window.addEventListener('page-transition-finished', introAnimation);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('app-loader-completed', introAnimation);
+    window.removeEventListener('page-transition-finished', introAnimation);
 });
 </script>
 
