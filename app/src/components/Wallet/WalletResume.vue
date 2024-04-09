@@ -12,8 +12,6 @@ const props = defineProps({
     }
 });
 
-//console.log('This is coming from WalletResume: ', props.wallet);
-
 const dayJS = inject('dayJS');
 const createdAt = dayJS(props.wallet.created_at);
 

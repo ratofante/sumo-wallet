@@ -36,10 +36,11 @@ class WalletSeeder extends Seeder
         ];
 
         foreach ($wallets as $walletData) {
+            $numberOfExpenses = random_int(5, 15);
             $wallet = Wallet::create($walletData);
 
             $wallet->expenses()->createMany(
-                Expense::factory()->count(10)->make()->toArray()
+                Expense::factory()->count($numberOfExpenses)->make()->toArray()
             );
         }
 

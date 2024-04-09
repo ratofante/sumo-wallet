@@ -7,40 +7,40 @@ import ButtonSecondary from '@/components/Button/ButtonSecondary.vue';
 import { PlusIcon, BanknotesIcon, ArrowPathIcon } from '@heroicons/vue/16/solid';
 
 import { reactive, ref } from 'vue';
-import { supabase } from '@/supabase';
-import store from '@/stores/userStore';
+import axios from '@/composables/useAxios';
+import { useUserStore } from '@/stores/useUserStore';
+import { storeToRefs } from 'pinia';
 
+const { user } = storeToRefs(useUserStore());
 const wallet = ref(null);
 const processingForm = ref(false);
 const form = reactive({
     name: '',
     errorMsg: null
 });
-
 const emit = defineEmits(['wallet-created', 'create-error', 'close-dialog']);
 
 const createWallet = async () => {
     processingForm.value = true;
 
     try {
-        const { data, error } = await supabase
-            .from('wallets')
-            .insert([
-                {
-                    name: form.name,
-                    user_id: store.state.user.id
-                }
-            ])
-            .select();
+        const { data, error } = await axios.post('/api/wallet', {
+            name: form.name,
+            user_id: user.value.id
+        });
 
         if (error) throw new Error(error.message);
-        form.name = '';
-        wallet.value = data;
-        emit('wallet-created', wallet.value);
+
+        if (data) {
+            console.log(data);
+            wallet.value = data;
+            emit('wallet-created', wallet.value);
+        }
     } catch (error) {
         form.errorMsg = error.message;
         emit('create-error', error.message);
     } finally {
+        form.name = '';
         processingForm.value = false;
     }
 };

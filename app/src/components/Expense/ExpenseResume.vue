@@ -18,7 +18,7 @@ const date = dayJS(props.expense.created_at);
 <template>
     <RouterLink
         :to="`/wallet/${route.params.id}/expense/${expense.id}`"
-        class="w-full flex items-center justify-between my-1"
+        class="w-full flex items-center justify-between my-1 cursor-pointer"
     >
         <div
             class="flex flex-col items-center justify-center shrink-0 w-10 h-10 text-slate-50 bg-slate-800 rounded-sm overflow-hidden"

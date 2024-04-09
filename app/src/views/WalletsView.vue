@@ -13,11 +13,10 @@ import { storeToRefs } from 'pinia';
 import LoaderSpinner from '@/components/LoaderSpinner.vue';
 
 const { setWallets } = useWalletStore();
-const { wallets } = storeToRefs(useWalletStore());
+const { wallets, getWalletsByMostRecent } = storeToRefs(useWalletStore());
 const loadingData = ref(false);
 const errors = ref(null);
 const createWalletDialog = ref(null);
-const userWallets = ref([]);
 
 const getWallets = async () => {
     loadingData.value = true;
@@ -38,7 +37,7 @@ const getWallets = async () => {
 };
 
 const onWalletCreated = async () => {
-    userWallets.value = await getWallets();
+    await getWallets();
     createWalletDialog.value.close();
 };
 
@@ -71,7 +70,7 @@ onMounted(async () => {
             </div>
             <WalletResume
                 v-else-if="wallets?.length > 0"
-                v-for="wallet in wallets"
+                v-for="wallet in getWalletsByMostRecent"
                 :key="wallet.id"
                 :wallet="wallet"
             />

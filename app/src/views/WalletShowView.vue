@@ -2,9 +2,9 @@
 import ButtonGoBack from '@/components/Button/ButtonGoBack.vue';
 import ExpenseTracker from '@/components/Expense/ExpenseTracker.vue';
 
-import { supabase } from '@/supabase';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import axios from '@/composables/useAxios';
 
 const route = useRoute();
 const router = useRouter();
@@ -15,20 +15,23 @@ const errorMsg = ref(null);
 const getWallet = async (id) => {
     loadingWallet.value = true;
     try {
-        let { data, error } = await supabase.from('wallets').select('*').eq('id', id);
-
+        const { data, error } = await axios.get(`/api/wallet/${id}`);
+        console.log(data);
         if (error) throw new Error(error.message);
-        wallet.value = data[0];
+        if (data) {
+            wallet.value = data.data;
+        }
     } catch (error) {
         console.log(error.message);
         errorMsg.value = error.message;
     } finally {
         loadingWallet.value = false;
+        console.log(loadingWallet.value);
     }
 };
 
 onMounted(async () => {
-    getWallet(route.params.id);
+    await getWallet(route.params.id);
 });
 </script>
 <template>
