@@ -6,6 +6,7 @@ import ButtonGoBack from '@/components/Button/ButtonGoBack.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { supabase } from '@/supabase';
 import { onMounted, ref } from 'vue';
+import ContainerBase from '@/components/Container/ContainerBase.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -33,7 +34,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <div>
+    <ContainerBase>
         <div class="flex justify-between items-center">
             <h2 class="uppercase text-sm font-semibold text-rose-800 mb-0">Expense detail</h2>
             <ButtonGoBack @click="router.push(`/wallet/${route.params.walletId}`)" />
@@ -49,5 +50,5 @@ onMounted(() => {
                 {{ errorMsg }}
             </div>
         </ExpenseContainer>
-    </div>
+    </ContainerBase>
 </template>

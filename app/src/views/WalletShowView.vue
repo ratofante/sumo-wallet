@@ -1,4 +1,5 @@
 <script setup>
+import ContainerBase from '@/components/Container/ContainerBase.vue';
 import ButtonGoBack from '@/components/Button/ButtonGoBack.vue';
 import ExpenseTracker from '@/components/Expense/ExpenseTracker.vue';
 
@@ -35,7 +36,7 @@ onMounted(async () => {
 });
 </script>
 <template>
-    <div>
+    <ContainerBase>
         <div class="flex justify-between items-center mb-8">
             <h2 class="uppercase text-sm font-semibold text-rose-800 mb-0">Wallet details</h2>
             <ButtonGoBack @click="router.push({ name: 'wallets' })" />
@@ -51,5 +52,5 @@ onMounted(async () => {
                 {{ errorMsg }}
             </div>
         </div>
-    </div>
+    </ContainerBase>
 </template>

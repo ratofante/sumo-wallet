@@ -1,7 +1,6 @@
 <script setup>
 import { PowerIcon } from '@heroicons/vue/24/outline';
 
-import axios from '@/composables/useAxios';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/useUserStore';
 
@@ -10,19 +9,9 @@ const router = useRouter();
 const { userLogout } = useUserStore();
 
 const logout = async () => {
-    await axios
-        .post('/logout')
-        .then(() => {
-            userLogout();
-            router.push({ name: 'home' });
-        })
-        .catch((e) => {
-            console.log(e);
-        })
-        .finally(() => {
-            emit('close-user-menu');
-            router.push({ name: 'home' });
-        });
+    await userLogout();
+    emit('close-user-menu');
+    router.push({ name: 'home' });
 };
 </script>
 <template>

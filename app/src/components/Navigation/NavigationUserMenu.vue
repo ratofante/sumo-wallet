@@ -15,7 +15,7 @@ defineEmits(['close-user-menu']);
             class="user__menu fixed translate-x-full right-0 top-16 w-72 border-4 border-slate-200 bg-slate-50 dark:bg-slate-900 dark:border-opacity-20 pt-8 pb-4 px-4 pl-8 rounded-l-md z-30 transition-transform"
         >
             <NavigationUserResume />
-            <NavigationUserMenuSections />
+            <NavigationUserMenuSections @close-user-menu="$emit('close-user-menu')" />
             <NavigationUserMenuLogout @close-user-menu="$emit('close-user-menu')" />
         </div>
     </div>

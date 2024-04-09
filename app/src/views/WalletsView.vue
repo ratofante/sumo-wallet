@@ -1,4 +1,6 @@
 <script setup>
+import ContainerBase from '@/components/Container/ContainerBase.vue';
+import LoaderSpinner from '@/components/LoaderSpinner.vue';
 import WalletCreate from '@/components/Wallet/WalletCreate.vue';
 import WalletResume from '@/components/Wallet/WalletResume.vue';
 import ButtonSecondary from '@/components/Button/ButtonSecondary.vue';
@@ -10,7 +12,6 @@ import { onMounted, ref } from 'vue';
 import axios from '@/composables/useAxios';
 import { useWalletStore } from '@/stores/useWalletStore.js';
 import { storeToRefs } from 'pinia';
-import LoaderSpinner from '@/components/LoaderSpinner.vue';
 
 const { setWallets } = useWalletStore();
 const { wallets, getWalletsByMostRecent } = storeToRefs(useWalletStore());
@@ -46,7 +47,7 @@ onMounted(async () => {
 });
 </script>
 <template>
-    <div>
+    <ContainerBase>
         <div class="flex justify-between mb-4">
             <h2 class="title-lg mb-0">Wallets</h2>
             <ButtonSecondary @click="createWalletDialog.show()">
@@ -83,5 +84,5 @@ onMounted(async () => {
                 Push the button at the upper right corner and create your first wallet.
             </div>
         </div>
-    </div>
+    </ContainerBase>
 </template>
