@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name',);
             $table->decimal('amount', 10, 2);
+            $table->string('note', 255)->nullable();
             $table->foreignId('wallet_id')->nullable();
             $table->foreign('wallet_id')->references('id')->on('wallets');
             $table->timestamps();

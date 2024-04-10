@@ -8,43 +8,18 @@ import ModalDialog from '@/components/ModalDialog.vue';
 
 import { PlusIcon } from '@heroicons/vue/16/solid';
 
-import { onMounted, ref } from 'vue';
-import axios from '@/composables/useAxios';
+import { ref } from 'vue';
 import { useWalletStore } from '@/stores/useWalletStore.js';
 import { storeToRefs } from 'pinia';
 
-const { setWallets } = useWalletStore();
 const { wallets, getWalletsByMostRecent } = storeToRefs(useWalletStore());
 const loadingData = ref(false);
 const errors = ref(null);
 const createWalletDialog = ref(null);
 
-const getWallets = async () => {
-    loadingData.value = true;
-    try {
-        const { data, error } = await axios.get('/api/wallet');
-
-        if (error) throw new Error(error.message);
-
-        if (data) {
-            setWallets(data);
-        }
-    } catch (error) {
-        console.log(`Error: ${error.message}`);
-        errors.value = error.message;
-    } finally {
-        loadingData.value = false;
-    }
-};
-
 const onWalletCreated = async () => {
-    await getWallets();
     createWalletDialog.value.close();
 };
-
-onMounted(async () => {
-    await getWallets();
-});
 </script>
 <template>
     <ContainerBase>

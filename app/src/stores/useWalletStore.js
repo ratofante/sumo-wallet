@@ -1,30 +1,24 @@
+import axios from '@/composables/useAxios';
 import { defineStore } from 'pinia';
 
-/**
- * Pinia store for managing wallet data.
- */
 export const useWalletStore = defineStore('wallet', {
     state: () => ({
-        /**
-         * Array containing wallet data.
-         * @type {Array<Object>}
-         */
-        wallets: []
+        wallets: [],
+        activeWallet: null
     }),
     getters: {
-        /**
-         * Get wallets sorted by most recent.
-         * @returns {Array<Object>} Array of wallets sorted by most recent.
-         */
+        getExpenseById: (state) => {
+            return (id) =>
+                [...state.activeWallet.expenses].find((expense) => expense.id === parseInt(id));
+        },
+        getWalletById: (state) => {
+            return (id) => [...state.wallets].find((wallet) => wallet.id === parseInt(id));
+        },
         getWalletsByMostRecent() {
             return [...this.wallets].sort(
                 (a, b) => new Date(b.created_at) - new Date(a.created_at)
             );
         },
-        /**
-         * Get wallets sorted by oldest.
-         * @returns {Array<Object>} Array of wallets sorted by oldest.
-         */
         getWalletsByOldest() {
             return [...this.wallets].sort(
                 (a, b) => new Date(a.created_at) - new Date(b.created_at)
@@ -32,21 +26,29 @@ export const useWalletStore = defineStore('wallet', {
         }
     },
     actions: {
-        /**
-         * Set wallets data.
-         * @param {Object} resource - Resource containing wallet data.
-         */
+        async getWallets() {
+            axios
+                .get(`/api/wallet`)
+                .then((response) => {
+                    this.wallets = response.data.data;
+                })
+                .catch((error) => {
+                    throw new Error(error.message);
+                });
+        },
         setWallets(resource) {
             if (this.wallets.length !== 0) this.emptyWallets();
             resource.data.forEach((wallet) => {
                 this.wallets.push(wallet);
             });
         },
-        /**
-         * Empty wallets array.
-         */
         emptyWallets() {
             this.wallets = [];
+        },
+        setActiveWallet(id) {
+            const activeWallet = (id) =>
+                [...this.wallets].find((wallet) => wallet.id === parseInt(id));
+            this.activeWallet = activeWallet(id);
         }
     }
 });

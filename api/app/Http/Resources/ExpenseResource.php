@@ -19,6 +19,7 @@ class ExpenseResource extends JsonResource
             'wallet_id' => $this->wallet_id,
             'name' => $this->name,
             'amount' => $this->amount,
+            'note' => $this->note,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

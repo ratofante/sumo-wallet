@@ -5,7 +5,7 @@ import ExpenseResume from '@/components/Expense/ExpenseResume.vue';
 import ButtonSecondary from '@/components/Button/ButtonSecondary.vue';
 import ModalDialog from '@/components/ModalDialog.vue';
 
-import { PlusIcon, ArrowPathIcon } from '@heroicons/vue/16/solid';
+import { PlusIcon } from '@heroicons/vue/16/solid';
 
 import { ref, onMounted } from 'vue';
 
@@ -46,13 +46,6 @@ onMounted(() => {});
         </div>
 
         <ExpenseContainer>
-            <!-- <div
-                v-if="loadingData"
-                class="flex gap-2 items-center justify-center"
-            >
-                <ArrowPathIcon class="w-4 h-4 animate-spin" />
-                loading...
-            </div> -->
             <div v-if="errorMsg">
                 {{ errorMsg }}
             </div>

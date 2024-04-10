@@ -3,36 +3,19 @@ import ContainerBase from '@/components/Container/ContainerBase.vue';
 import ButtonGoBack from '@/components/Button/ButtonGoBack.vue';
 import ExpenseTracker from '@/components/Expense/ExpenseTracker.vue';
 
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from '@/composables/useAxios';
+import { useWalletStore } from '@/stores/useWalletStore.js';
+import { storeToRefs } from 'pinia';
 
 const route = useRoute();
 const router = useRouter();
-const loadingWallet = ref(false);
-const wallet = ref(null);
-const errorMsg = ref(null);
 
-const getWallet = async (id) => {
-    loadingWallet.value = true;
-    try {
-        const { data, error } = await axios.get(`/api/wallet/${id}`);
-        console.log(data);
-        if (error) throw new Error(error.message);
-        if (data) {
-            wallet.value = data.data;
-        }
-    } catch (error) {
-        console.log(error.message);
-        errorMsg.value = error.message;
-    } finally {
-        loadingWallet.value = false;
-        console.log(loadingWallet.value);
-    }
-};
+const { setActiveWallet } = useWalletStore();
+const { activeWallet } = storeToRefs(useWalletStore());
 
-onMounted(async () => {
-    await getWallet(route.params.id);
+onMounted(() => {
+    setActiveWallet(route.params.id);
 });
 </script>
 <template>
@@ -43,14 +26,11 @@ onMounted(async () => {
         </div>
 
         <div>
-            <div v-if="loadingWallet">Loading</div>
             <ExpenseTracker
-                v-else-if="wallet"
-                :wallet="wallet"
+                v-if="activeWallet"
+                :wallet="activeWallet"
             />
-            <div v-else>
-                {{ errorMsg }}
-            </div>
+            <div v-else>Something wen't wrong</div>
         </div>
     </ContainerBase>
 </template>

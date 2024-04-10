@@ -4,13 +4,15 @@ import NavigationBar from './components/Navigation/NavigationBar.vue';
 import PageTransition from './components/PageTransition.vue';
 
 import { RouterView, useRouter } from 'vue-router';
-import { onMounted } from 'vue';
+import { onMounted, watch } from 'vue';
 import axios from '@/composables/useAxios.js';
 import { useUserStore } from '@/stores/useUserStore.js';
+import { useWalletStore } from '@/stores/useWalletStore.js';
 import { storeToRefs } from 'pinia';
 
 const { getUser } = useUserStore();
 const { user, isLogged } = storeToRefs(useUserStore());
+const { getWallets } = useWalletStore();
 const router = useRouter();
 
 localStorage.setItem('settings', JSON.stringify({ theme: ' dark' }));
@@ -26,14 +28,21 @@ async function getApiCredentials() {
 function getUserSettings() {
     const settings = localStorage.getItem('settings');
     if (settings) {
-        console.log('There are settings!', JSON.parse(settings));
+        //console.log('There are settings!', JSON.parse(settings));
     }
 }
+
+watch(user, async (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+        if (newValue) {
+            await getWallets();
+        }
+    }
+});
 
 onMounted(async () => {
     await getApiCredentials();
     await getUser();
-    console.log(`isLogged: ${isLogged.value}`, user.value);
     getUserSettings();
     isLogged.value ? router.push({ name: 'dashboard' }) : router.push({ name: 'home' });
 });

@@ -49,6 +49,7 @@ const sumAllExpenses = () => {
                     <ExpenseResume
                         v-if="wallet.expenses[0]"
                         :expense="wallet.expenses[0]"
+                        :wallet-id="wallet.id"
                     />
                 </div>
             </div>

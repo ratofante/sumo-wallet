@@ -17,6 +17,8 @@ const props = defineProps({
     }
 });
 
+console.log(props.expense);
+
 const editDialog = ref(null);
 const deleteDialog = ref(null);
 const router = useRouter();

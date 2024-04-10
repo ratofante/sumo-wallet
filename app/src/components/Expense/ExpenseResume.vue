@@ -1,23 +1,26 @@
 <script setup>
 import ExpenseAmount from '@/components/Expense/ExpenseAmount.vue';
 
-import { RouterLink, useRoute } from 'vue-router';
+import { RouterLink } from 'vue-router';
 import { inject } from 'vue';
 
 const props = defineProps({
     expense: {
         type: Object,
         required: true
+    },
+    walletId: {
+        type: Number,
+        required: true
     }
 });
-const route = useRoute();
 const dayJS = inject('dayJS');
 const date = dayJS(props.expense.created_at);
 </script>
 
 <template>
     <RouterLink
-        :to="`/wallet/${route.params.id}/expense/${expense.id}`"
+        :to="`/wallet/${walletId}/expense/${expense.id}`"
         class="w-full flex items-center justify-between my-1 cursor-pointer"
     >
         <div

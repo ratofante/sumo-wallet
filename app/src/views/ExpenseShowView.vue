@@ -1,36 +1,24 @@
 <script setup>
 import ExpenseContainer from '@/components/Expense/ExpenseContainer.vue';
 import ExpenseShow from '@/components/Expense/ExpenseShow.vue';
+import ContainerBase from '@/components/Container/ContainerBase.vue';
 import ButtonGoBack from '@/components/Button/ButtonGoBack.vue';
 
 import { useRoute, useRouter } from 'vue-router';
-import { supabase } from '@/supabase';
 import { onMounted, ref } from 'vue';
-import ContainerBase from '@/components/Container/ContainerBase.vue';
+import { useWalletStore } from '@/stores/useWalletStore';
 
 const router = useRouter();
 const route = useRoute();
 const loadingExpense = ref(false);
-const expense = ref(null);
 const errorMsg = ref('');
 
-const getExpense = async (id) => {
-    loadingExpense.value = true;
-    try {
-        let { data, error } = await supabase.from('expenses').select('*').eq('id', id);
-
-        if (error) throw new Error(error.message);
-        expense.value = data[0];
-    } catch (error) {
-        console.log(error.message);
-        errorMsg.value = error.message;
-    } finally {
-        loadingExpense.value = false;
-    }
-};
+const { getExpenseById } = useWalletStore();
+const expense = ref();
 
 onMounted(() => {
-    getExpense(route.params.id);
+    expense.value = getExpenseById(route.params.id);
+    console.log(expense.value);
 });
 </script>
 <template>

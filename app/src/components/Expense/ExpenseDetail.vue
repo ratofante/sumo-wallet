@@ -1,9 +1,9 @@
 <script setup>
-import useAddThousandSeparator from '@/composables/useAddThousandSeparator';
+import useFormatCurrency from '@/composables/useFormatCurrency';
 import { inject } from 'vue';
 const props = defineProps({
     amount: {
-        type: Number,
+        type: String,
         required: true
     },
     note: {
@@ -27,7 +27,7 @@ const updatedAt = dayJS(props.updatedAt);
 <template>
     <div>
         <div class="text-rose-900 font-bold text-2xl pt-4 pb-2 dark:text-rose-300">
-            &dollar; {{ useAddThousandSeparator(amount) }}
+            {{ useFormatCurrency(parseFloat(amount)) }}
         </div>
         <div class="flex flex-col text-xs dark:text-slate-300">
             <span>Added at {{ createdAt.format('HH:mm D MMM YYYY') }}</span>
