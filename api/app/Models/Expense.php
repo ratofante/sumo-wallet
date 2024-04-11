@@ -13,6 +13,8 @@ class Expense extends Model
     protected $fillable = [
         'name',
         'amount',
+        'note',
+        'wallet_id'
     ];
 
     public function wallet(): BelongsTo

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,4 +22,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::apiResource('wallet', WalletController::class);
+    Route::apiResource('expense', ExpenseController::class);
 });
