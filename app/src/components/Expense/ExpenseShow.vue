@@ -10,22 +10,18 @@ import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/16/solid';
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
-const props = defineProps({
+defineProps({
     expense: {
         type: Object,
         required: true
     }
 });
 
-console.log(props.expense);
-
 const editDialog = ref(null);
 const deleteDialog = ref(null);
 const router = useRouter();
 const route = useRoute();
 const goBackToWalletUrl = `/wallet/${route.params.walletId}`;
-
-console.log(route.params.walletId);
 
 const onExpenseEdited = () => {
     editDialog.value.close();

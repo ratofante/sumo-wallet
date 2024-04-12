@@ -1,5 +1,5 @@
 <script setup>
-import ExpenseForm from '@/components/Expense/ExpenseForm.vue';
+import FormModalContainer from '../Form/FormModalContainer.vue';
 import FormInputNumber from '@/components/Form/FormInputNumber.vue';
 import FormInputText from '@/components/Form/FormInputText.vue';
 import FormTextArea from '@/components/Form/FormTextArea.vue';
@@ -14,8 +14,8 @@ import {
     PencilSquareIcon
 } from '@heroicons/vue/16/solid';
 
-import { supabase } from '@/supabase';
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref } from 'vue';
+import { useWalletStore } from '@/stores/useWalletStore';
 
 const props = defineProps({
     expense: {
@@ -23,68 +23,32 @@ const props = defineProps({
         required: true
     }
 });
-
-console.log(props.expense.id);
-
-const emit = defineEmits(['expense-edited', 'edit-error', 'close-dialog']);
-
+const { editExpense } = useWalletStore();
 const processingForm = ref(false);
 
+const emit = defineEmits(['expense-edited', 'close-dialog']);
+
 const form = reactive({
-    name: props.name ?? '',
-    amount: props.amount ?? '',
-    note: props.note ?? '',
+    name: props.expense.name ?? '',
+    amount: props.expense.amount ?? '',
+    note: props.expense.note ?? '',
+    expenseId: props.expense.id,
     errorMsg: ''
 });
 
-watch(
-    () => props.expense,
-    (newValue) => {
-        if (newValue) {
-            form.name = newValue.name || '';
-            form.amount = newValue.amount.toString() || '';
-            form.note = newValue.note || '';
-        }
-    },
-    { immediate: true }
-);
-
-const editExpense = async () => {
+const handleSubmit = async () => {
     processingForm.value = true;
-    try {
-        console.log(props.expense.id);
-        const { data, error } = await supabase
-            .from('expenses')
-            .update({
-                name: form.name,
-                amount: form.amount,
-                note: form.note,
-                updated_at: new Date().toISOString()
-            })
-            .eq('id', props.expense.id)
-            .select();
-
-        if (error) throw new Error(error.message);
-
-        form.name = '';
-        form.amount = '';
-        form.note = '';
-
-        emit('expense-edited', data);
-    } catch (error) {
-        console.log(`-- from catch -- Error: ${error.message}`);
-        emit('edit-error', error.message);
-    } finally {
-        processingForm.value = false;
-    }
+    await editExpense(form);
+    processingForm.value = false;
+    emit('expense-edited');
 };
 </script>
 <template>
-    <ExpenseForm
+    <FormModalContainer
         title="Edit expense"
         @close-dialog="$emit('close-dialog')"
     >
-        <form @submit.prevent="editExpense">
+        <form @submit.prevent="handleSubmit">
             <FormInputText
                 name="name"
                 label="Name"
@@ -149,5 +113,5 @@ const editExpense = async () => {
                 </ButtonSecondary>
             </div>
         </form>
-    </ExpenseForm>
+    </FormModalContainer>
 </template>

@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('expenses', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
             $table->string('name', 20);
             $table->decimal('amount', 10, 2);
             $table->string('note', 255)->nullable();
-            $table->foreignId('wallet_id')->nullable();
-            $table->foreign('wallet_id')->references('id')->on('wallets');
+            $table->foreignId('wallet_id');
+            $table->foreign('wallet_id')->references('id')->on('wallets')->onDelete('cascade');
             $table->timestamps();
         });
     }

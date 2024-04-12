@@ -1,5 +1,5 @@
 <script setup>
-import FormModalContainer from '../Form/FormModalContainer.vue';
+import FormModalContainer from '@/components/Form/FormModalContainer.vue';
 import ButtonSecondary from '@/components/Button/ButtonSecondary.vue';
 
 import { TrashIcon, ArrowPathIcon } from '@heroicons/vue/16/solid';
@@ -7,27 +7,33 @@ import { TrashIcon, ArrowPathIcon } from '@heroicons/vue/16/solid';
 import { ref } from 'vue';
 import { useWalletStore } from '@/stores/useWalletStore';
 
-const props = defineProps(['id']);
-const { deleteExpense } = useWalletStore();
+const props = defineProps(['walletId']);
+
+const { deleteWallet, setActiveWallet } = useWalletStore();
 const processingForm = ref(false);
 
-const emit = defineEmits(['expense-deleted', 'close-dialog']);
+const emit = defineEmits(['wallet-deleted', 'close-dialog']);
 
 const handleSubmit = async () => {
     processingForm.value = true;
-    await deleteExpense(props.id);
+    await deleteWallet(props.walletId);
     processingForm.value = false;
-    emit('expense-deleted');
+    emit('wallet-deleted');
 };
+
+const onOpenDeleteDialog = () => {
+    setActiveWallet(props.walletId);
+};
+defineExpose({ onOpenDeleteDialog });
 </script>
 <template>
     <FormModalContainer
-        title="Delete expense"
+        title="Delete wallet"
         @close-dialog="$emit('close-dialog')"
     >
         <form @submit.prevent="handleSubmit">
             <p class="text-md text-center pt-8 pb-2">
-                Are you sure you want to delete this expense?
+                Are you sure you want to delete this wallet?
             </p>
             <div class="flex flex-col items-center gap-1 mt-8">
                 <ButtonSecondary

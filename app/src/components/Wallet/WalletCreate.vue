@@ -7,12 +7,12 @@ import ButtonSecondary from '@/components/Button/ButtonSecondary.vue';
 import { PlusIcon, BanknotesIcon, ArrowPathIcon } from '@heroicons/vue/16/solid';
 
 import { reactive, ref } from 'vue';
-import axios from '@/composables/useAxios';
 import { useUserStore } from '@/stores/useUserStore';
+import { useWalletStore } from '@/stores/useWalletStore';
 import { storeToRefs } from 'pinia';
 
 const { user } = storeToRefs(useUserStore());
-const wallet = ref(null);
+const { createWallet } = useWalletStore();
 const processingForm = ref(false);
 const form = reactive({
     name: '',
@@ -20,29 +20,13 @@ const form = reactive({
 });
 const emit = defineEmits(['wallet-created', 'create-error', 'close-dialog']);
 
-const createWallet = async () => {
-    processingForm.value = true;
+const handleSubmit = async () => {
+    await createWallet({
+        name: form.name,
+        user_id: user.value?.id
+    });
 
-    try {
-        const { data, error } = await axios.post('/api/wallet', {
-            name: form.name,
-            user_id: user.value.id
-        });
-
-        if (error) throw new Error(error.message);
-
-        if (data) {
-            console.log(data);
-            wallet.value = data;
-            emit('wallet-created', wallet.value);
-        }
-    } catch (error) {
-        form.errorMsg = error.message;
-        emit('create-error', error.message);
-    } finally {
-        form.name = '';
-        processingForm.value = false;
-    }
+    emit('wallet-created');
 };
 </script>
 <template>
@@ -50,7 +34,7 @@ const createWallet = async () => {
         title="Create wallet"
         @close-dialog="$emit('close-dialog')"
     >
-        <form @submit.prevent="createWallet">
+        <form @submit.prevent="handleSubmit">
             <FormInputText
                 name="name"
                 label="Name"

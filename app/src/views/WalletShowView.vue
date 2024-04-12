@@ -3,7 +3,7 @@ import ContainerBase from '@/components/Container/ContainerBase.vue';
 import ButtonGoBack from '@/components/Button/ButtonGoBack.vue';
 import ExpenseTracker from '@/components/Expense/ExpenseTracker.vue';
 
-import { onMounted } from 'vue';
+import { onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useWalletStore } from '@/stores/useWalletStore.js';
 import { storeToRefs } from 'pinia';
@@ -14,7 +14,8 @@ const router = useRouter();
 const { setActiveWallet } = useWalletStore();
 const { activeWallet } = storeToRefs(useWalletStore());
 
-onMounted(() => {
+onBeforeMount(() => {
+    console.log('onMounted', route.params.id);
     setActiveWallet(route.params.id);
 });
 </script>

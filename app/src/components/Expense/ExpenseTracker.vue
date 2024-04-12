@@ -8,21 +8,20 @@ import ModalDialog from '@/components/ModalDialog.vue';
 import { PlusIcon } from '@heroicons/vue/16/solid';
 
 import { ref, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useWalletStore } from '@/stores/useWalletStore';
 
-const props = defineProps({
-    wallet: {
-        type: Object,
-        required: true
-    }
-});
-console.log(props.wallet);
-const loadingData = ref(true);
-const errorMsg = ref(null);
+const { activeWallet } = storeToRefs(useWalletStore());
 const dialog = ref();
 
 const onExpenseCreated = async () => {
     dialog.value.close();
 };
+
+function sortExpensesByMostRecent(expenses) {
+    expenses.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    return expenses;
+}
 
 onMounted(() => {});
 </script>
@@ -30,7 +29,7 @@ onMounted(() => {});
     <section>
         <div class="flex justify-between items-center">
             <h3 class="title-lg mb-0 dark:text-rose-700">
-                {{ wallet?.name ?? '' }}
+                {{ activeWallet?.name ?? '' }}
             </h3>
             <ButtonSecondary @click="dialog.show()">
                 <template #icon><PlusIcon class="w-4 h-4" /></template>
@@ -38,7 +37,7 @@ onMounted(() => {});
             </ButtonSecondary>
             <ModalDialog ref="dialog">
                 <ExpenseCreate
-                    :wallet-id="wallet.id"
+                    :wallet-id="activeWallet.id"
                     @expense-created="onExpenseCreated"
                     @close-dialog="dialog.close()"
                 />
@@ -46,17 +45,20 @@ onMounted(() => {});
         </div>
 
         <ExpenseContainer>
-            <div v-if="errorMsg">
-                {{ errorMsg }}
-            </div>
-            <ExpenseResume
-                v-for="expense in wallet.expenses"
-                :key="expense.id"
-                :expense="expense"
-                :wallet-id="wallet.id"
-            />
             <div
-                v-if="!loadingData && wallet.expenses.length === 0"
+                v-if="activeWallet.expenses.length > 0"
+                class="w-full"
+            >
+                <ExpenseResume
+                    v-for="expense in sortExpensesByMostRecent(activeWallet.expenses)"
+                    :key="expense.id"
+                    :expense="expense"
+                    :wallet-id="activeWallet.id"
+                />
+            </div>
+
+            <div
+                v-else
                 class="text-center text-sm"
             >
                 You don't have registered expenses this month.

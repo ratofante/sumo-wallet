@@ -18,7 +18,6 @@ const expense = ref();
 
 onMounted(() => {
     expense.value = getExpenseById(route.params.id);
-    console.log(expense.value);
 });
 </script>
 <template>
