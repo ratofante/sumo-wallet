@@ -1,8 +1,16 @@
 <script setup>
+import AvatarImage from '@/components/AvatarImage.vue';
+
+import { onMounted } from 'vue';
 import { useUserStore } from '@/stores/useUserStore.js';
 import { storeToRefs } from 'pinia';
 
-const { user } = storeToRefs(useUserStore());
+const { user, avatarUrl } = storeToRefs(useUserStore());
+const { getAvatar } = useUserStore();
+
+onMounted(async () => {
+    getAvatar();
+});
 </script>
 <template>
     <div class="flex gap-8 justify-between">
@@ -15,11 +23,7 @@ const { user } = storeToRefs(useUserStore());
             </span>
         </div>
         <div class="w-16 h-16 rounded-full border-2 border-rose-800 overflow-hidden">
-            <img
-                class="grayscale"
-                src="https://picsum.photos/64/64"
-                alt=""
-            />
+            <AvatarImage />
         </div>
     </div>
 </template>

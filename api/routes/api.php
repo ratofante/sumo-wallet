@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Http\Request;
@@ -23,4 +24,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::apiResource('wallet', WalletController::class);
     Route::apiResource('expense', ExpenseController::class);
+
+    Route::post('/upload-avatar', [AvatarController::class, 'upload']);
+    Route::get('/get-avatar', [AvatarController::class, 'get']);
 });
