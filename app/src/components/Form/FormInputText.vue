@@ -32,6 +32,12 @@ const model = defineModel({
 
 const input = ref(null);
 
+function getFocus() {
+    setTimeout(() => {
+        input.value.focus();
+    }, 100);
+}
+defineExpose({ getFocus });
 defineEmits(['updateValue']);
 
 onMounted(() => {

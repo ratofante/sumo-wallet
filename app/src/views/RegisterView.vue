@@ -1,16 +1,16 @@
 <script setup>
 import FormInputText from '@/components/Form/FormInputText.vue';
 import FormErrorMsg from '@/components/Form/FormErrorMsg.vue';
-//import FormSelectInput from '@/components/Form/FormSelectInput.vue';
 import ButtonPrimary from '@/components/Button/ButtonPrimary.vue';
 
 import { EnvelopeIcon, KeyIcon, LockClosedIcon, UserIcon } from '@heroicons/vue/16/solid';
 
 import { reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from '@/composables/useAxios';
+import { useUserStore } from '@/stores/useUserStore';
 
 const router = useRouter();
+const { userRegister } = useUserStore();
 
 const form = reactive({
     name: '',
@@ -46,23 +46,9 @@ const register = async () => {
         return;
     }
     processingForm.value = true;
-    try {
-        let { error } = await axios.post('/register', {
-            name: form.name,
-            email: form.email,
-            password: form.password,
-            password_confirmation: form.password_confirmation
-        });
-        if (!error) {
-            const { data } = await axios.get('/api/user');
-            console.log(data);
-            router.push({ name: 'dashboard' });
-        } else throw error;
-    } catch (error) {
-        form.errorMsg = 'Error: ' + error.message;
-    } finally {
-        processingForm.value = false;
-    }
+    const success = await userRegister(form);
+    if (success) router.push({ name: 'dashboard' });
+    processingForm.value = false;
 };
 </script>
 <template>
@@ -155,17 +141,7 @@ const register = async () => {
                     </span>
                 </template>
             </FormInputText>
-            <!-- <FormSelectInput
-        label="País"
-        name="pais"
-        @input="
-          (e) => {
-            form.country = e;
-          }
-        "
-        :options="['chile', 'argentina', 'perú', 'brasil']"
-        default="Chile"
-      /> -->
+
             <FormErrorMsg :message="form.errorMsg" />
             <div class="mt-8 flex flex-col items-center gap-1">
                 <ButtonPrimary

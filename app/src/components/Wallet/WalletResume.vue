@@ -2,14 +2,14 @@
 import ExpenseResume from '@/components//Expense/ExpenseResume.vue';
 import WalletEdit from '@/components/Wallet/WalletEdit.vue';
 import ButtonSingleIcon from '../Button/ButtonSingleIcon.vue';
+import ModalDialog from '../ModalDialog.vue';
+import WalletDelete from './WalletDelete.vue';
 
 import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/16/solid';
 
-import { inject, ref } from 'vue';
+import { inject, ref, computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import useFormatCurrency from '@/composables/useFormatCurrency';
-import ModalDialog from '../ModalDialog.vue';
-import WalletDelete from './WalletDelete.vue';
 
 const props = defineProps({
     wallet: {
@@ -24,13 +24,22 @@ const deleteWalletDialog = ref();
 const dayJS = inject('dayJS');
 const createdAt = dayJS(props.wallet.created_at);
 
-const sumAllExpenses = () => {
+const mostRecentExpense = computed(() => {
+    let expenses = props.wallet.expenses;
+    let orderedByMostRecent = expenses.sort((a, b) => {
+        return new Date(b.created_at) - new Date(a.created_at);
+    });
+    return orderedByMostRecent[0];
+});
+
+const sumAllExpenses = computed(() => {
     let sum = 0;
     props.wallet.expenses.forEach((expense) => {
         sum = sum + parseFloat(expense.amount);
     });
     return useFormatCurrency(sum);
-};
+});
+
 const onEditOpen = () => {
     editWalletDialog.value.show();
     walletEdit.value.onOpenEditDialog();
@@ -42,10 +51,10 @@ const onDeleteOpen = () => {
 </script>
 
 <template>
-    <article class="bg-slate-50 p-2 mb-4 border-b-2 rounded-md shadow-md">
+    <article class="bg-slate-50 dark:bg-slate-700 p-2 mb-4 border-b-2 rounded-md shadow-md">
         <header class="flex justify-between items-center px-2 mb-2">
-            <h6 class="text-2xl font-serif">{{ wallet.name }}</h6>
-            <div class="text-xs tracking-tighter ml-auto mr-4">
+            <h6 class="text-2xl font-serif dark:text-slate-50">{{ wallet.name }}</h6>
+            <div class="text-xs tracking-tighter ml-auto mr-4 dark:text-slate-100">
                 {{ createdAt.format('DD MMM YYYY') }}
             </div>
             <menu class="flex gap-2">
@@ -90,22 +99,26 @@ const onDeleteOpen = () => {
         <RouterLink :to="`/wallet/${wallet.id}`">
             <div
                 v-if="wallet.expenses.length > 0"
-                class="bg-rose-200 py-4 px-2 border-b-2 border-rose-300 rounded-sm overflow-hidden"
+                class="bg-rose-50 dark:bg-slate-900 py-4 px-2 border-b-2 border-rose-300 dark:border-slate-100 dark:border-opacity-50 rounded-sm overflow-hidden"
             >
                 <div class="flex justify-between items-center text-sm mb-4">
-                    <span class="tracking-tight">{{ wallet.expenses.length }} expenses</span>
-                    <span>
+                    <span class="tracking-tight dark:text-slate-50 dark:text-opacity-75">
+                        {{ wallet.expenses.length }} expenses
+                    </span>
+                    <span class="dark:text-slate-50">
                         Total:
-                        <span class="text-rose-900 font-semibold tracking-tighter">
-                            {{ sumAllExpenses() }}
+                        <span class="text-rose-900 dark:text-rose-100 font-medium tracking-tighter">
+                            {{ sumAllExpenses }}
                         </span>
                     </span>
                 </div>
                 <div class="pointer-events-none">
-                    <span class="text-sm text-rose-900 font-medium">Last added:</span>
+                    <span class="text-sm text-rose-900 font-medium dark:text-slate-100">
+                        Last added:
+                    </span>
                     <ExpenseResume
                         v-if="wallet.expenses[0]"
-                        :expense="wallet.expenses[0]"
+                        :expense="mostRecentExpense"
                         :wallet-id="wallet.id"
                     />
                 </div>

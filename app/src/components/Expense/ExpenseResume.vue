@@ -24,17 +24,17 @@ const date = dayJS(props.expense.created_at);
         class="w-full flex items-center justify-between my-1 cursor-pointer"
     >
         <div
-            class="flex flex-col items-center justify-center shrink-0 w-10 h-10 text-slate-50 bg-slate-800 rounded-sm overflow-hidden"
+            class="flex flex-col items-center justify-center shrink-0 w-10 h-10 text-slate-50 bg-slate-800 dark:bg-slate-700 rounded-sm overflow-hidden"
         >
             <span class="text-[10px]">{{ date.format('MMM') }}</span>
             <span class="text-sm">{{ date.format('DD') }}</span>
         </div>
         <div class="flex flex-col justify-center ml-4 mr-auto">
-            <span class="line-clamp-1">{{ expense.name }}</span>
-            <span class="line-clamp-1 text-xs">{{ expense.note }}</span>
+            <span class="line-clamp-1 dark:text-slate-100">{{ expense.name }}</span>
+            <span class="line-clamp-1 text-xs dark:text-slate-300">{{ expense.note }}</span>
         </div>
-        <div class="flex text-lg tracking-tighter w-1/3">
-            <span class="inline-block ml-auto">
+        <div class="flex text-lg tracking-tighter w-1/3 self-end">
+            <span class="inline-block ml-auto dark:text-rose-100">
                 <ExpenseAmount :amount="parseFloat(expense.amount)" />
             </span>
         </div>

@@ -1,4 +1,5 @@
 import axios from '@/composables/useAxios';
+import dayjs from 'dayjs';
 import { defineStore } from 'pinia';
 
 export const useWalletStore = defineStore('wallet', {
@@ -23,6 +24,48 @@ export const useWalletStore = defineStore('wallet', {
             return [...this.wallets].sort(
                 (a, b) => new Date(a.created_at) - new Date(b.created_at)
             );
+        },
+        getMonthlyExpended: (state) => {
+            let total = 0;
+            const currentMonthStart = dayjs().startOf('month');
+            const currentMonthEnd = dayjs().endOf('month');
+
+            state.wallets.forEach((wallet) => {
+                if (wallet.expenses?.length > 0) {
+                    wallet.expenses.forEach((expense) => {
+                        const expenseDate = dayjs(expense.created_at);
+                        if (expenseDate >= currentMonthStart && expenseDate <= currentMonthEnd) {
+                            total = total + parseFloat(expense.amount);
+                        }
+                    });
+                }
+            });
+            return total;
+        },
+        getLastMonthExpended: (state) => {
+            let total = 0;
+            // Get the start and end of the previous month
+            const previousMonthStart = dayjs().subtract(1, 'month').startOf('month');
+            const previousMonthEnd = dayjs().subtract(1, 'month').endOf('month');
+
+            state.wallets.forEach((wallet) => {
+                if (wallet.expenses?.length > 0) {
+                    wallet.expenses.forEach((expense) => {
+                        const expenseDate = dayjs(expense.created_at);
+                        if (expenseDate >= previousMonthStart && expenseDate <= previousMonthEnd) {
+                            total = total + parseFloat(expense.amount);
+                        }
+                    });
+                }
+            });
+            return total;
+        },
+        getNumberOfTotalExpenses: (state) => {
+            let total = 0;
+            state.wallets.forEach((wallet) => {
+                total = total + wallet.expenses.length;
+            });
+            return total;
         }
     },
     actions: {
@@ -49,7 +92,6 @@ export const useWalletStore = defineStore('wallet', {
             const activeWallet = (id) =>
                 [...this.wallets].find((wallet) => wallet.id === parseInt(id));
             this.activeWallet = activeWallet(id);
-            console.log(this.activeWallet);
         },
         async createWallet(form) {
             axios
