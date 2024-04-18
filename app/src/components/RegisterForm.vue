@@ -83,7 +83,7 @@ const register = async () => {
             name="name"
             v-model="form.name"
             type="text"
-            :autofocus="true"
+            :autofocus="false"
             placeholder="Your Username"
             :disabled="!editEnable"
             ref="focusable"

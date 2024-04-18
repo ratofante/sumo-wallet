@@ -8,5 +8,5 @@ defineProps({
 });
 </script>
 <template>
-    <span class="font-medium">{{ useFormatCurrency(amount) }}</span>
+    <span class="">{{ useFormatCurrency(amount) }}</span>
 </template>

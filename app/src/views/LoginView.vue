@@ -7,12 +7,11 @@ import LoginSpinner from '@/components/LoaderSpinner.vue';
 import { EnvelopeIcon, KeyIcon } from '@heroicons/vue/16/solid';
 
 import { reactive, ref } from 'vue';
-import axios from '@/composables/useAxios';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/useUserStore';
 
 const router = useRouter();
-const { setUser } = useUserStore();
+const { userLogin } = useUserStore();
 const processingForm = ref(false);
 
 const form = reactive({
@@ -23,23 +22,9 @@ const form = reactive({
 
 const login = async () => {
     processingForm.value = true;
-    try {
-        await axios.get('/sanctum/csrf-cookie');
-        await axios.post('/login', {
-            email: form.email,
-            password: form.password
-        });
-        const { data } = await axios.get('api/user');
-
-        if (data) {
-            setUser(data);
-            router.push({ name: 'dashboard' });
-        }
-    } catch (error) {
-        form.errorMsg = 'Error: ' + error.message;
-    } finally {
-        processingForm.value = false;
-    }
+    const success = await userLogin(form);
+    if (success) router.push({ name: 'dashboard' });
+    processingForm.value = false;
 };
 </script>
 <template>

@@ -3,13 +3,16 @@ import { PowerIcon } from '@heroicons/vue/24/outline';
 
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/useUserStore';
+import { useWalletStore } from '@/stores/useWalletStore';
 
 const emit = defineEmits(['close-user-menu']);
 const router = useRouter();
 const { userLogout } = useUserStore();
+const { emptyWallets } = useWalletStore();
 
 const logout = async () => {
     await userLogout();
+    emptyWallets();
     emit('close-user-menu');
     router.push({ name: 'home' });
 };

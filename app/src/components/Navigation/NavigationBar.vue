@@ -27,7 +27,7 @@ function toggleUserMenu() {
 </script>
 <template>
     <nav
-        class="relative w-full h-12 flex container container:md mx-auto font-medium border-b-2 rounded-b-sm bg-slate-50 dark:bg-slate-900 dark:border-opacity-20 dark:border-slate-200 transition-colors"
+        class="fixed top-0 w-full h-12 flex container container:md mx-auto font-medium border-b-2 rounded-b-sm bg-slate-50 dark:bg-slate-900 dark:border-opacity-20 dark:border-slate-200 transition-colors"
     >
         <NavigationSectionsMenu v-show="isSectionsMenuOpen" />
         <NavigationUserMenu

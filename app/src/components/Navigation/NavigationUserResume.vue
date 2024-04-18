@@ -1,16 +1,10 @@
 <script setup>
 import AvatarImage from '@/components/AvatarImage.vue';
 
-import { onMounted } from 'vue';
 import { useUserStore } from '@/stores/useUserStore.js';
 import { storeToRefs } from 'pinia';
 
-const { user, avatarUrl } = storeToRefs(useUserStore());
-const { getAvatar } = useUserStore();
-
-onMounted(async () => {
-    getAvatar();
-});
+const { user } = storeToRefs(useUserStore());
 </script>
 <template>
     <div class="flex gap-8 justify-between">

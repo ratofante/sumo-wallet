@@ -33,7 +33,6 @@ const model = defineModel({
 const input = ref(null);
 
 function getFocus() {
-    console.log('getFocus');
     setTimeout(() => {
         input.value.focus();
     }, 100);

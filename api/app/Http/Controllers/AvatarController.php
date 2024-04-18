@@ -33,7 +33,7 @@ class AvatarController extends Controller
     public function get()
     {
         $avatar = auth()->user()->avatar;
-        $url = Storage::url($avatar);
+        $url = $avatar ? Storage::url($avatar) : null;
 
         return new JsonResponse([
             'url' => $url

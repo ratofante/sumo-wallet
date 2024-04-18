@@ -38,6 +38,18 @@ const emit = defineEmits(['input']);
 onMounted(() => {
     emit('input', selected.value);
 });
+
+/* <FormSelectInput
+        label="País"
+        name="pais"
+        @input="
+          (e) => {
+            form.country = e;
+          }
+        "
+        :options="['chile', 'argentina', 'perú', 'brasil']"
+        default="Chile"
+      /> */
 </script>
 
 <template>

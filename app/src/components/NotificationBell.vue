@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { BellIcon } from '@heroicons/vue/24/outline';
-import store from '@/stores/userStore.js';
 import ButtonDropdown from '@/components/Button/ButtonDropdown.vue';
 import LinkSimple from '@/components/Link/LinkSimple.vue';
 
@@ -33,18 +32,18 @@ const checkProfile = () => {
     }
 };
 
-/***
- * Checks for profile and missings fields
- * @returns {boolean}
- */
-const profileNeedsUpdate = () => {
-    return (
-        store.state.profile &&
-        (!store.state.profile.username ||
-            !store.state.profile.full_name ||
-            !store.state.profile.avatar_url)
-    );
-};
+// /***
+//  * Checks for profile and missings fields
+//  * @returns {boolean}
+//  */
+// const profileNeedsUpdate = () => {
+//     return (
+//         store.state.profile &&
+//         (!store.state.profile.username ||
+//             !store.state.profile.full_name ||
+//             !store.state.profile.avatar_url)
+//     );
+// };
 
 const closeDropdown = () => {
     dropdown.value.toggleDropdown();

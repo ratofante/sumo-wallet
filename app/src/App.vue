@@ -50,7 +50,7 @@ onMounted(async () => {
 
 <template>
     <div
-        class="relative max-w-md md:max-w-3xl mx-auto min-h-screen bg-rose-50 dark:bg-slate-950 transition-colors"
+        class="relative max-w-md md:max-w-3xl mx-auto min-h-screen bg-rose-50 bg-opacity-30 dark:bg-slate-950 transition-colors"
     >
         <AppLoader />
         <header class="absolute top-0 left-0 w-full z-50">
